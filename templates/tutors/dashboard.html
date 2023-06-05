@@ -1,0 +1,149 @@
+{% extends 'tutors/base.html' %}
+{% load static %}
+
+
+{% block content %}
+<main class="ttr-wrapper">
+    <div class="container-fluid">
+      
+        <!-- Card -->
+        <div class="row">
+            <div class="col-md-6 col-lg-3 col-xl-3 col-sm-6 col-12">
+                <div class="widget-card widget-bg1 p-4">					 
+                    <div class="wc-item">
+                        <h4 class="wc-title">
+                            Total Eanrings
+                        </h4>
+                        <span class="wc-des">
+                            All Customs Value
+                        </span>
+                        <span class="wc-stats">
+                            $<span class="counter">18</span>M 
+                        </span>		
+                        
+                    </div>				      
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 col-xl-3 col-sm-6 col-12">
+                <div class="widget-card widget-bg2 p-4">					 
+                    <div class="wc-item">
+                        <h4 class="wc-title">
+                             Created Courses
+                        </h4>
+                        <span class="wc-des">
+                            Customer Review
+                        </span>
+                        <span class="wc-stats counter">120</span>		
+                    </div>				      
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 col-xl-3 col-sm-6 col-12">
+                <div class="widget-card widget-bg3 p-4">					 
+                    <div class="wc-item">
+                        <h4 class="wc-title">
+                            Students
+                        </h4>
+                        <span class="wc-des">
+                             number of enrolled courses
+                        </span>
+                        <span class="wc-stats counter">772</span>		
+                    </div>				      
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 col-xl-3 col-sm-6 col-12">
+                <div class="widget-card widget-bg4 p-4" >					 
+                    <div class="wc-item">
+                        <h4 class="wc-title">
+                            Reviews on Courses
+                        </h4>
+                        <span class="wc-des">
+                            Joined New User
+                        </span>
+                        <span class="wc-stats counter">350</span>		
+                      
+                    </div>				      
+                </div>
+            </div>
+        </div>
+        <!-- Card END -->
+        <div class="row">
+            <!-- Your Profile Views Chart -->
+            <div class="col-lg-8 m-b30">
+                <div class="widget-box">
+                    <div class="wc-title">
+                        <h4>My Stats</h4>
+                    </div>
+                    <div class="widget-inner"><div class="chartjs-size-monitor" style="position: absolute; inset: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+                        <canvas id="chart" width="589" height="265" class="chartjs-render-monitor" style="display: block; width: 589px; height: 265px;"></canvas>
+                    </div>
+                </div>
+            </div>
+            <!-- Your Profile Views Chart END-->
+            <div class="col-lg-4 m-b30">
+                <div class="widget-box">
+                    <div class="wc-title">
+                        <h4>Notifications</h4>
+                    </div>
+                    <div class="widget-inner">
+                        <div class="noti-box-list">
+                            <ul>
+                                {% for notification in notifications %}
+                                <li>
+                                    <span class="notification-icon dashbg-{{notification.color}}">
+                                        <i class="fa fa-{{notification.icon}}"></i>
+                                    </span>
+                                    <span class="notification-text">
+                                        <a href="#">{{notification.message}} </a>
+                                    </span>
+                                    <span class="notification-time">
+                                        <a style="cursor:pointer" class="fa fa-close"></a>
+                                        <span> {{notification.time_sent}}</span>
+                                    </span>
+                                </li>
+                                {%empty%}
+                                <li>  <span class="notification-text">
+                                        <a href="#">No notifications </a>
+                                    </span>  </li>
+                               {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-12 m-b30">
+                <div class="widget-box">
+                    <div class="wc-title">
+                        <h4>My Courses</h4>
+                    </div>
+                    <div class="widget-inner">
+                        <div class="orders-list">
+                            <ul>
+                                {% for course in courses %}
+                                <li>
+                                    <span class="orders-title">
+                                        <a href="#" class="orders-title-name">{{course.title}} </a>
+                                        <span class="orders-info"> | Date 12/08/2019</span>
+                                    </span>
+                                    <span class="orders-btn">
+                                        {% if course.status == "published" %}
+                                        <a href="#" class="btn button-sm green">{{course.status}}</a>
+                                        {% elif course.status == "pending" %}
+                                        <a href="#" class="btn button-sm yellow">{{course.status}}</a>
+                                        {% else %}
+                                        <a href="#" class="btn button-sm red">{{course.status}}</a>
+                                        {% endif %}
+                                    </span>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</main>
+
+{% endblock  %}

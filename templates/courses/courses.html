@@ -1,0 +1,74 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="page-content bg-white">
+      
+		<div class="breadcrumb-row">
+			<div class="container">
+				<ul class="list-inline">
+					<li><a href="{% url 'homepage' %}">Home</a></li>
+					<li>Our Courses</li>
+				</ul>
+			</div>
+		</div>
+        <!-- inner page banner END -->
+		<div class="content-block">
+            <!-- About Us -->
+			<div class="section-area section-sp1">
+                <div class="container">
+					 <div class="row">
+						{% include 'courses/sidebar.html' %}
+						<div class="col-lg-9 col-md-8 col-sm-12">
+							<div class="row">
+								{% for course  in  courses %}
+								<div class="col-md-6 col-lg-4 col-sm-6 m-b30">
+									<div class="cours-bx">
+										<div class="action-box">
+											<img src="{{course.thumbnail.url}}"  style="height:200px !important"  alt="">
+											<a href="{% url 'course-detail' course.slug %}" class="btn">Read More</a>
+										</div> 
+										<div class="info-bx text-center">
+											<h5><a href="{% url 'course-detail' course.slug %}">{{course.title}}</a></h5>
+											<span>{{course.category}}</span>
+										</div>
+										<div class="cours-more-info">
+											<div class="review">
+												<span>{{course.no_of_reviews}} Review</span>
+												<ul class="cours-star">
+													<li class="active"><i class="fa fa-star"></i></li>
+													<li class="active"><i class="fa fa-star"></i></li>
+													<li class="active"><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+													<li><i class="fa fa-star"></i></li>
+												</ul>
+											</div>
+											
+											<div class="price">
+													{%if course.price == 0 %}
+													<h5 class="free">Free</h5>	
+													{% elif course.discount == 0.0 %}
+													<h5>${{course.price}}</h5>	
+													{% else %}
+													<del>${{course.price}}</del>
+													<h5>${{course.discount_price}}</h5>
+													{% endif %}	
+											</div>
+										</div>
+									</div>
+								</div>
+								{%empty%}
+								No courses yet
+								{% endfor %}
+							
+							</div>
+						</div>
+					</div>
+				</div>
+            </div>
+        </div>
+		<!-- contact area END -->
+		
+    </div>
+
+
+{% endblock %}

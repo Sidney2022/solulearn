@@ -1,0 +1,134 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- inner page banner END --> 
+<div class="content-block">
+	<!-- About Us -->
+	<div class="section-area section-sp1">
+		<div class="container">
+			 <div class="row d-flex ">
+				 <div class="col-lg-7 col-md-12 col-sm-12">
+					 <div class="courses-post"> 
+						<h3>Lesson {{lesson.lesson_no}} : {{lesson.title}} </h3>
+						 {% comment %} {% for x in course.lectures %}{{x.title}}{% endfor %} {% endcomment %}
+						 <div class="ttr-post-media media-effect">
+							 <video id="video_player" width="640" height="360" controls controlslist="nodownload" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen>
+								 <source src="{{lesson.file.url}}" type="video/mp4" >	
+							</video>
+						</div>
+					</div>
+				</div>
+				<div class="m-b30 col-lg-5 col-md-12 col-sm-12 s-p5" id="curriculum">
+					<h4>Lessons</h4>
+					<ul class="curriculum-list">
+							<li>
+								{% comment %} <h5>Lessons</h5> {% endcomment %}
+								<ul>
+									{% for lesson in lessons %}
+									<li>
+										<div class="curriculum-list-box">
+											<a  href="{% url 'single-lesson' course.slug %}?q={{lesson.slug}}" ><span>Lesson {{lesson.lesson_no}} .</span> {{lesson.title}}</a>
+										</div>
+										{% comment %} <span>12 mins</span> {% endcomment %}
+										{% for completed_lesson in completed_lessons %} 
+										{%if lesson ==  completed_lesson.lesson %}
+										<span><i class="fa fa-check text-success"> </i></span>
+										{% endif %}
+										{% endfor %}
+									</li>
+									{% endfor %}
+								</ul>
+							</li>
+							{% comment %} <li>
+								<h5>Quizzes</h5>
+								<ul>
+									<li>
+										<div class="curriculum-list-box">
+											<span>Quiz 1.</span> Prototyping and Design
+										</div>
+										<span>110 minutes</span>
+									</li>
+									<li>
+										<div class="curriculum-list-box">
+											<span>Quiz 2.</span> UI Design Capstone
+										</div>
+										<span>120 minutes</span>
+									</li>
+									<li>
+										<div class="curriculum-list-box">
+											<span>Quiz 3.</span> Evaluating User Interfaces Part 2
+										</div>
+										<span>120 minutes</span>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<h5>Project</h5>
+								<ul>
+									<li>
+										<div class="curriculum-list-box">
+											<span>Part 1.</span> Final Test
+										</div>
+										<span>120 minutes</span>
+									</li>
+									<li>
+										<div class="curriculum-list-box">
+											<span>Part 2.</span> Online Test
+										</div>
+										<span>120 minutes</span>
+									</li>
+								</ul>
+							</li> {% endcomment %}
+						</ul>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+<!-- contact area END -->
+<input id ="next_lesson" type="hidden" value={{next_lesson}}>
+
+<script>
+	
+function trackVideoPlay() {
+	const videoPlayer = document.getElementById("video_player")
+	const NextLesson = document.getElementById("next_lesson")
+	
+	videoPlayer.addEventListener('timeupdate', function(){
+		const videoDuration = videoPlayer.duration
+		const current_time = videoPlayer.currentTime
+		const playedPercentage = (current_time / videoDuration) * 100
+		console.log({ "videoPlayer object":videoPlayer, "percent":playedPercentage})
+		if (playedPercentage >= 5 ) {
+			fetch("{% url 'lesson-complete' course.slug %}?lesson={{lesson.slug}}", {
+				method: "GET",
+				})
+				.then((res) => res.json())
+				.then((data) => {
+				  console.log("data", data);
+				if (data.field_error ) {
+					alert("course already exists")
+				}
+			});
+			if (playedPercentage >= 10 ) {
+				console.log(next_lesson.value)
+				if (next_lesson.value === "None") {
+			window.location.href = "{% url 'course-detail' course.slug %}"
+		} else {
+
+			window.location.href = "{% url 'single-lesson' course.slug %}?q={{next_lesson}}"
+		}
+			}
+		}
+	})
+}
+trackVideoPlay()
+
+</script>
+
+
+{% endblock  %}
+

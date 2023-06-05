@@ -1,0 +1,30 @@
+
+{% load static %}
+{% include 'header.html' %}
+
+
+<body id="bg">
+<div class="page-wraper">
+	<div id="loading-icon-bx"></div>
+	<div class="account-form">
+		<div class="account-head" style="background-image:url(/static/assets/images/background/bg2.jpg);">
+			<a href="index.html"><img src="{% static 'assets/images/logo-white-2.png' %}" alt=""></a>
+		</div>
+		<div class="account-form-inner">
+			<div class="account-container">
+				<div class="error-page">
+					<h3>Ooopps :(</h3>
+					<h2 class="error-title">404</h2>
+					<h5>The Page/Resource you were looking for, couldn't be found.</h5>
+					<p>The page/Resource you are looking for might have been removed, had its name changed, or is temporarily unavailable.</p>
+					<div class="">
+						{% comment %} <a href="index.html" class="btn m-r5">Preview</a> {% endcomment %}
+						<a href="{% url 'homepage' %}" class="btn outline black">Back To Homepage</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% include 'js-links.html' %}

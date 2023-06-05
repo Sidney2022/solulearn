@@ -1,0 +1,174 @@
+{% extends 'tutors/base.html' %}
+{% load static %}
+
+{% block content %}
+<!--Main container start -->
+<main class="ttr-wrapper">
+  <div class="container-fluid">
+       {% comment %} <div>kjap;jm;lkn</div> continue course setup {% endcomment %}
+        <div class="row">
+          <!-- Your Profile Views Chart -->
+            <div class="col-md-12 my-12">
+                <div class="card shadow">
+                  {% include 'messages.html' %}
+                  <div class="card-body">
+                    <h5 class="card-title">Your Lessons</h5>
+                    <table  id="table" class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Lesson Title</th>
+                          <th>Media Content</th>
+                          <th>Action</th>
+                         
+                        </tr>
+                      </thead>
+                      <tbody id="table-body">
+                         <tr id="table-row">
+                          {% comment %} <td>3224</td>
+                          <td>Keith Baird</td>
+                          <td>Enim Limited</td>
+                          <td>901-6206 Cras Av.</td> {% endcomment %}
+                        </tr>
+                      
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            <div class="col-lg-12 m-b30">
+                <div class="widget-box">
+                    <div class="wc-title">
+                        <h4>Add Lessons </h4>
+                    </div>
+                    <div class="widget-inner">
+                        <form class="edit-profile m-b30" action="{% url 'add-course' %}" method ="post" id="form" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-12">
+                                   
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="col-form-label">Lesson title</label>
+                                    <div>
+                                        <input required class="form-control" type="text" value="" name="title" id="title">
+                                        <input  class="form-control" type="hidden" value="{{course.slug}}" name="course" id="course">
+                                    </div>
+                                </div>
+                              
+                                
+                                <div class="form-group col-6">
+                                    <label class="col-form-label"> Content</label>
+                                    <div>
+                                        <input required class="form-control" type="file" name="file" id="file">
+                                    </div>
+                                </div>
+                                
+                                </div>
+                                <div class="seperator"></div>
+                                
+                                
+                                <div class="col-12 ">
+                                    <button type="submit" id="lesson-btn" class="btn ">Add Lesson</button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <form action="{% url 'comp-course' %}" method ="post" id="complete-form">
+                            <input required class="form-control" type="hidden" value="{{course.slug}}" name="course">
+add confirmation msg to this form
+                        <button type="submit" id="" class="btn ">Done </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Your Profile Views Chart END-->
+        </div>
+    </div>
+</main>
+<div class="ttr-overlay"></div>
+
+<script >  
+    const Form = document.getElementById("form")
+    Form.addEventListener("submit", (e) => {
+        e.preventDefault()
+        const formData = new FormData(form)
+        const FormSubmitBtn = document.getElementById("lesson-btn")
+        FormSubmitBtn.innerHTML="Adding Lesson..."
+        FormSubmitBtn.disabled = true;
+    fetch("{% url 'create-lessons' course.slug  %}", {
+        body: formData,
+        method: "POST",
+      })
+        .then((res) => res.json())
+        .then((data) => {
+        //  console.log("data", data);
+          FormSubmitBtn.innerHTML="Add Lesson"
+          Form.reset()
+          FormSubmitBtn.removeAttribute("disabled");
+          if (data.field_error ) {
+            alert("course already exists")
+          }
+        });
+    })
+</script>
+
+
+<script>
+    // Function to fetch data using AJAX
+  function fetchData() {
+    // Make a GET request to the specified URL
+    fetch("{% url 'get-lessons' course.slug %}",
+    {method: "GET",}
+    )
+    .then(response => {
+    // Check if the response was successful
+    if (!response.ok) {
+        throw new Error("Request failed");
+    }
+    // Parse the response data as JSON
+    return response.json();
+    })
+    .then(data => {
+    // Handle the response data
+    console.log(data);
+    const TableBody = document.getElementById("table")
+    TableBody.innerHTML = `
+    <thead>
+        <tr>
+          <th>ID</th>
+          <th>Lesson Title</th>
+          <th>Lesson Conten</th>
+          <th>Action</th>
+         
+        </tr>
+      </thead>`
+  data.data.forEach(entry => {
+    const row = TableBody.insertRow()
+    const cell1 = row.insertCell(0)
+    const cell2 = row.insertCell(1)
+    const cell3 = row.insertCell(2)
+    const cell4 = row.insertCell(3)
+    cell1.textContent = entry['lesson_no']
+    cell2.textContent = entry['title']
+    file = entry['file']
+    cell3.textContent = file.split('/')[1]
+    cell4.innerHTML = `<a class="btn bg-secondary" href="">
+       delete
+      </a>`
+    // Do something with the data
+   // TableBody.append(lesson)
+        })
+    }) 
+    .catch(error => {
+    // Handle any errors that occurred during the request
+    console.error(error);
+    });
+  }
+  // Call the fetchData function initially
+  fetchData();
+  // Call the fetchData function every 5 seconds
+  setInterval(fetchData, 1000);
+</script>
+
+{% endblock  %}

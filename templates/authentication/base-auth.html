@@ -1,0 +1,21 @@
+{% load static %}
+{% include 'header.html' %}
+<body id="bg">
+<div class="page-wraper">
+	<div id="loading-icon-bx"></div>
+	<div class="account-form">
+		<div class="account-head" style="background-image:url(/static/assets/images/background/bg2.jpg);">
+			<a href={% url 'homepage' %}><img src="{% static 'assets/images/logo-white-2.png' %}" alt=""></a>
+		</div>
+		<div class="account-form-inner">
+			<div class="account-container">
+				{% include 'messages.html' %}
+				{% block content %}
+				{% endblock content %}	
+			</div>
+		</div>
+	</div>
+</div>
+<!-- External JavaScripts -->
+
+{% include 'js-links.html' %}
