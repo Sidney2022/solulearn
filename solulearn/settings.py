@@ -3,7 +3,7 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 load_dotenv()
-# import dj_database_url
+import dj_database_url
 from django.contrib import messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -92,18 +92,21 @@ AUTHENTICATION_BACKENDS = [
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-
-
 DATABASES = {
-    'default': {
-        'ENGINE': "django.db.backends.postgresql_psycopg2",
-        'NAME': os.getenv("PGDATABASE"),
-        'USER': os.getenv("PGUSER"),
-        'PASSWORD': os.getenv("PGPASSWORD"),
-        'HOST': os.getenv("PGHOST"),
-        'PORT': os.getenv("PGPORT"),
-    }
+    'default': dj_database_url.parse(os.getenv("DATABASE_URL"))
 }
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': "django.db.backends.postgresql_psycopg2",
+#         'NAME': os.getenv("PGDATABASE"),
+#         'USER': os.getenv("PGUSER"),
+#         'PASSWORD': os.getenv("PGPASSWORD"),
+#         'HOST': os.getenv("PGHOST"),
+#         'PORT': os.getenv("PGPORT"),
+#     }
+# }
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
