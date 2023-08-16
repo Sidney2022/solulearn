@@ -33,8 +33,6 @@ INSTALLED_APPS = [
     'accounts',
     'courses',
 
-    'cloudinary',
-    'cloudinary_storage',
 
     'django_password_validators',
 
