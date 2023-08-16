@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 from .models import Post, Comment
 from django.db.models import Q
 from django.urls import reverse
@@ -44,7 +45,7 @@ def search(request):
     }
     return render(request, 'blog/search.html', context)
     
-
+@login_required()
 def addPostComment(request, slug):
     if request.method == "POST":
         comment = request.POST['comment']

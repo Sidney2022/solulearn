@@ -26,7 +26,7 @@ def courses(request):
         courses = Course.objects.filter(Q(title__icontains=title, status="published", is_created=True) | Q(category__name__icontains=title, status="published", is_created=True) )
     else:
         courses = Course.objects.filter(status="published", is_created=True)
-    recent_courses = courses.order_by('-date')[:5]
+    recent_courses = Course.objects.filter( status="published", is_created=True).order_by('-date')[:5]
     context = {'courses':courses, "recent_courses":recent_courses}
     return render(request, "courses/courses.html", context)
 

@@ -61,3 +61,7 @@ class Notification(models.Model):
         return msg_time 
     
     
+class PwToken(models.Model):
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    token = models.PositiveIntegerField()
+    timestamp = models.DateTimeField(auto_now_add=True)

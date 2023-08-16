@@ -133,7 +133,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-LOGIN_URL = '/auth/signin'
+LOGIN_URL = '/accounts/auth/signin'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
@@ -145,8 +145,8 @@ STATICFILES_STORAGE="whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 MEDIA_URL = 'media/'
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_ROOT = '/home/Solulearn/solulearn/media/'
-# MEDIA_ROOT = 'C:/Users/USER/desktop/proj/solulearn/media'
+# MEDIA_ROOT = '/home/Solulearn/solulearn/media/'
+MEDIA_ROOT = 'C:/Users/USER/desktop/proj/solulearn/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -157,7 +157,7 @@ EMAIL_HOST = os.getenv('EMAIL_HOST')
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_USE_TLS = bool(os.getenv("EMAIL_USE_TLS"))
 EMAIL_PORT = os.getenv('EMAIL_PORT')
-DEFAULT_FROM_EMAIL = os.getenv('EMAIL_HOST_USR')
+DEFAULT_FROM_EMAIL = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 

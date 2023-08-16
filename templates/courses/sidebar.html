@@ -44,13 +44,13 @@
                                 <h5>${{course.discount_price}}</h5>
                                 {% endif %}	
                             </li>
-                            <li class="review">{{course.no_of_reviews}} Review</li>
+                            <li class="review">{{course.no_reviews}} Review</li>
                         </ul>
                     </div>
                 </div>
             </div>
             {%empty%}
-        NO courses yet
+        No courses 
             {% endfor %}
         </div>
     </div>
