@@ -146,7 +146,7 @@ STATICFILES_STORAGE="whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 MEDIA_URL = 'media/'
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_ROOT = '/home/Solulearn/solulearn/media/'
+MEDIA_ROOT = '/home/solulearn/solulearn/media/'
 # MEDIA_ROOT = 'C:/Users/USER/desktop/proj/solulearn/media/'
 
 # Default primary key field type
