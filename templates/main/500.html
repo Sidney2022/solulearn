@@ -1,0 +1,29 @@
+{% load static %}
+{% include 'header.html' %}
+
+
+<body id="bg">
+<div class="page-wraper">
+	<div id="loading-icon-bx"></div>
+	<div class="account-form"> 
+		<div class="account-head" style="background-image:url(/static/assets/images/background/bg2.jpg);">
+			<a href="{% url 'homepage' %}"><img src="{% static 'assets/images/logo-white-2.png' %}" alt=""></a>
+		</div>
+		<div class="account-form-inner">
+			<div class="account-container">
+				<div class="error-page">
+					<h3>Ooopps :(</h3>
+					<h2 class="">500 - Server Error  </h2>
+					<h5>An Error occurred on our end.</h5>
+					<p>If problem persists, please contact us.</p>
+					<div class="">
+						{% comment %} <a href="index.html" class="btn m-r5">Preview</a> {% endcomment %}
+						<a href="{% url 'homepage' %}" class="btn outline black">Back To Homepage</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% include 'js-links.html' %}

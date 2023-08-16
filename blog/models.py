@@ -15,9 +15,12 @@ class Post(models.Model):
         self.slug = slugify(self.title)
         super(Post, self).save(*args, **kwargs)
     
-    def get_comments(self):
-        comments = Comment.objects.filter(post=self.slug)
+    def comments(self):
+        comments = Comment.objects.filter(post=self.id)
         return comments
+    
+    def no_comments(self):
+        return len(self.comments())
 
     def recent_posts(self):
         posts = Post.objects.order_by('-timestamp')

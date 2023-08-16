@@ -1,6 +1,4 @@
 {% extends 'main/base.html' %}
-{% load static %}
-
 {% block content %}
 
 
@@ -9,7 +7,7 @@
 	<!-- About Us -->
 	<div class="section-area section-sp1">
 		<div class="container">
-			{% include 'messages.html' %}
+			{% comment %} {% include 'messages.html' %} {% endcomment %}
 			 <div class="row d-flex flex-row-reverse">
 				<div class="col-lg-3 col-md-4 col-sm-12 m-b30">
 					<div class="course-detail-bx">
@@ -54,13 +52,15 @@
 						</div>
 						<div class="cours-more-info">
 							<div class="review">
-								<span>{{no_of_reviews}} Review</span>
+								<span>{{course.no_reviews}} Review</span>
 								<ul class="cours-star">
+									{% for i in "12345" %}
+									{% if i|add:0 <= course.average_rating %}
 									<li class="active"><i class="fa fa-star"></i></li>
-									<li class="active"><i class="fa fa-star"></i></li>
-									<li class="active"><i class="fa fa-star"></i></li>
-									<li><i class="fa fa-star"></i></li>
-									<li><i class="fa fa-star"></i></li>
+									{% else %}
+									<li class="no-star"><i class="fa fa-star"></i></li>
+									{% endif %}
+									{% endfor %}
 								</ul>
 							</div>
 							<div class="price categories">
@@ -74,15 +74,15 @@
 				<div class="col-lg-9 col-md-8 col-sm-12">
 					<div class="courses-post">
 						<div class="ttr-post-media media-effect">
-							<a href="#"><img src="{{course.thumbnail.url}}" draggable='false' style="height:400px" alt=""></a>
+							<a href="#"><img src="{{course.thumbnail.url}}" draggable='false' style="height:300px" alt=""></a>
 						</div>
 						<div class="ttr-post-info">
 							<div class="ttr-post-title upper">
 								<h2 class="post-title">{{course.title}}</h2>
 							</div>
-							<div class="ttr-post-text">
+							{% comment %} <div class="ttr-post-text">
 								<p>{{course.description}}.</p>
-							</div>
+							</div> {% endcomment %}
 						</div>
 					</div>
 					<div class="courese-overview" id="overview">
@@ -91,8 +91,7 @@
 							<div class="col-md-12 col-lg-4">
 								<ul class="course-features">
 									<li><i class="ti-book"></i> <span class="label">Lectures</span> <span class="value">{{no_lessons}}</span></li>
-									<li><i class="ti-help-alt"></i> <span class="label">Quizzes</span> <span class="value">1</span></li>
-									<li><i class="ti-time"></i> <span class="label">Duration</span> <span class="value">60 hours</span></li>
+									<li><i class="ti-time"></i> <span class="label">Duration</span> <span class="value">{{course.courseDuration}} </span></li>
 									<li><i class="ti-stats-up"></i> <span class="label">Skill level</span> <span class="value">{{course.skill_level}}</span></li>
 									<li><i class="ti-smallcap"></i> <span class="label">Language</span> <span class="value">English</span></li>
 									<li><i class="ti-user"></i> <span class="label">Students</span> <span class="value">{{no_enrolled}}</span></li>
@@ -126,51 +125,14 @@
 											<div class="curriculum-list-box">
 												<span>Lesson {{lesson.id}}.</span> {{lesson.title}}
 											</div>
+											{% if debug_mode == True %}
 											<span>{{lesson.file_length}}</span>
+											{% endif %}
 										</li>
 										{% endfor %}
 									</ul>
 								</li>
-								<li>
-									<h5>Quizzes</h5>
-									<ul>
-										<li>
-											<div class="curriculum-list-box">
-												<span>Quiz 1.</span> Prototyping and Design
-											</div>
-											<span>110 minutes</span>
-										</li>
-										<li>
-											<div class="curriculum-list-box">
-												<span>Quiz 2.</span> UI Design Capstone
-											</div>
-											<span>120 minutes</span>
-										</li>
-										<li>
-											<div class="curriculum-list-box">
-												<span>Quiz 3.</span> Evaluating User Interfaces Part 2
-											</div>
-											<span>120 minutes</span>
-										</li>
-									</ul>
-								</li>
-								<li>
-									<h5>Project</h5>
-									<ul>
-										<li>
-											<div class="curriculum-list-box">
-												<span>Part 1.</span> Final Test
-											</div>
-											<span>120 minutes</span>
-										</li>
-										<li>
-											<div class="curriculum-list-box">
-												<span>Part 2.</span> Online Test
-											</div>
-											<span>120 minutes</span>
-										</li>
-									</ul>
-								</li>
+								
 							</ul>
 					</div>
 					<div class="" id="instructor">
@@ -183,100 +145,12 @@
 							<div class="instructor-info">
 								<h6 class="upper"> {{course.instructor }} </h6>
 								<span>Professor</span>
-								<ul class="list-inline m-tb10">
-									<li><a href="#" class="btn sharp-sm facebook"><i class="fa fa-facebook"></i></a></li>
-									<li><a href="#" class="btn sharp-sm twitter"><i class="fa fa-twitter"></i></a></li>
-									<li><a href="#" class="btn sharp-sm linkedin"><i class="fa fa-linkedin"></i></a></li>
-									<li><a href="#" class="btn sharp-sm google-plus"><i class="fa fa-google-plus"></i></a></li>
-								</ul>
-								<p class="m-b0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries</p>
+								
+								<p class="m-b0">{{course.instructor.bio}}</p>
 							</div>
 						</div>
 					</div>
-					<div class="" id="reviews">
-						<h4>Reviews</h4>
-						
-						<div class="review-bx">
-							<div class="all-review">
-								<h2 class="rating-type">3</h2>
-								<ul class="cours-star">
-									<li class="active"><i class="fa fa-star"></i></li>
-									<li class="active"><i class="fa fa-star"></i></li>
-									<li class="active"><i class="fa fa-star"></i></li>
-									<li><i class="fa fa-star"></i></li>
-									<li><i class="fa fa-star"></i></li>
-								</ul>
-								<span>{{no_of_reviews}} Rating</span>
-							</div>
-							<div class="review-bar">
-								<div class="bar-bx">
-									<div class="side">
-										<div>5 star</div>
-									</div>
-									<div class="middle">
-										<div class="bar-container">
-											<div class="bar-5" style="width:90%;"></div>
-										</div>
-									</div>
-									<div class="side right">
-										<div>150</div>
-									</div>
-								</div>
-								<div class="bar-bx">
-									<div class="side">
-										<div>4 star</div>
-									</div>
-									<div class="middle">
-										<div class="bar-container">
-											<div class="bar-5" style="width:70%;"></div>
-										</div>
-									</div>
-									<div class="side right">
-										<div>1400</div>
-									</div>
-								</div>
-								<div class="bar-bx">
-									<div class="side">
-										<div>3 star</div>
-									</div>
-									<div class="middle">
-										<div class="bar-container">
-											<div class="bar-5" style="width:50%;"></div>
-										</div>
-									</div>
-									<div class="side right">
-										<div>120</div>
-									</div>
-								</div>
-								<div class="bar-bx">
-									<div class="side">
-										<div>2 star</div>
-									</div>
-									<div class="middle">
-										<div class="bar-container">
-											<div class="bar-5" style="width:40%;"></div>
-										</div>
-									</div>
-									<div class="side right">
-										<div>110</div>
-									</div>
-								</div>
-								<div class="bar-bx">
-									<div class="side">
-										<div>1 star</div>
-									</div>
-									<div class="middle">
-										<div class="bar-container">
-											<div class="bar-5" style="width:20%;"></div>
-										</div>
-									</div>
-									<div class="side right">
-										<div>80</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+					
 					
 				</div>
 				

@@ -1,26 +1,25 @@
 {% load static %}
+<link rel="icon" href="{% static 'assets/images/favicon.ico' %}" type="image/x-icon" />
 
 <div class="col-lg-3 col-md-4 col-sm-12 m-b30">
     <div class="widget courses-search-bx placeani">
-        <div class="form-group">
+        <form class="form-group">
             <div class="input-group">
                 <label>Search Courses</label>
-                <input name="dzName" type="text" required class="form-control">
+                <input name="q" type="text" required class="form-control">
             </div>
-        </div>
+        </form>
     </div>
     <div class="widget widget_archive">
         <h5 class="widget-title style-1">Our Courses</h5>
         <ul>
             <li class=""><a href="{% url 'all-courses' %}">See All Courses</a></li>
             {% for course_category in courseCategories %}
-            <li class=""><a href="{% url 'all-courses'  %}?sort={{course_category.name}}">{{course_category.name}}</a></li>
+            <li class=""><a href="{% url 'all-courses'  %}?category={{course_category.name}}">{{course_category.name}}</a></li>
             {% endfor %}
         </ul>
     </div>
-    <div class="widget">
-        <a href="#"><img src="{% static 'assets/images/adv/adv.jpg' %}" alt=""/></a>
-    </div>
+  
     <div class="widget recent-posts-entry widget-courses">
         <h5 class="widget-title style-1">Recent Courses</h5>
         <div class="widget-post-bx">

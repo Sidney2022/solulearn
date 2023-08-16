@@ -43,6 +43,10 @@ class Course(models.Model):
     features = models.TextField(blank=True) 
     # date_created = models.DateField()
     completion_badge = models.ImageField(default='badge.png', upload_to='courses/badges')
+    
+    def courseReviews(self):
+        reviews  = Review.objects.filter(course=self.id)
+        return reviews
 
     
     def get_no_enrolled_stds(self):
@@ -70,7 +74,37 @@ class Course(models.Model):
 
     def __str__(self):
         return self.title
-
+    
+    def courseDuration(self):
+        duration = 0
+        for lesson in Lesson.objects.filter(course=self.id):
+            duration += lesson.file_length()
+        if duration > 3600:
+            duration /= 3600
+            time = f" {round(duration)} hr(s)"
+        elif duration > 60:
+            duration /= 60
+            time = f"{round(duration)} min(s)"
+        else:
+            time = f"{round(duration)} sec(s)" 
+        return time
+    
+    def average_rating(self):
+        reviews = Review.objects.filter(course=self.id)
+        totaL_reviews = len(reviews)
+        totaL_rating_reviews = 0
+        for review in reviews:
+            totaL_rating_reviews += review.rating
+        if totaL_rating_reviews !=0:
+            avg_rating = totaL_rating_reviews/totaL_reviews
+        else:
+            avg_rating = 0
+        return round(avg_rating,1)
+    
+    def no_reviews(self):
+        reviews = Review.objects.filter(course=self.id)
+        
+        return len(reviews)
 
 class Lesson(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
@@ -110,15 +144,15 @@ class Lesson(models.Model):
         clip = VideoFileClip(file_path)
         duration = clip.duration
         clip.close()
-        if duration > 3600:
-            duration /= 3600
-            time = f" {round(duration)} hours"
-        elif duration > 60:
-            duration /= 60
-            time = f"{round(duration)} minutes"
-        else:
-            time = f"{round(duration)} seconds" 
-        return time
+        # if duration > 3600:
+        #     duration /= 3600
+        #     time = f" {round(duration)} hours"
+        # elif duration > 60:
+        #     duration /= 60
+        #     time = f"{round(duration)} minutes"
+        # else:
+        #     time = f"{round(duration)} seconds" 
+        return round(duration) #time
 
 
         # Example usage

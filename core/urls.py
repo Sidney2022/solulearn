@@ -9,9 +9,9 @@ urlpatterns = [
     path('about-us',  views.aboutUs, name='about'),
     path('contact',  views.contact, name='contact'),
     path('faqs',  views.faq, name='faq'),
-
+    path('search',  views.search, name='search'),
     path('dashboard',  views.tutor, name='dashboard'),
-
+    path('dashboard/',  views.tutor, name='dashboard'),
     path('dashboard/<pk>/created-courses', views.TutorCourses, name='tutor-courses')
 
 ]

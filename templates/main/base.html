@@ -1,4 +1,3 @@
-
 {% load static %}
 {% include 'header.html' %}
 
@@ -13,23 +12,26 @@
 				<div class="row d-flex justify-content-between">
 					<div class="topbar-left">
 						<ul>
-							<li><a href="faq-1.html"><i class="fa fa-question-circle"></i>Ask a Question</a></li>
-							<li><a href="javascript:;"><i class="fa fa-envelope-o"></i>Support@website.com</a></li>
-						</ul>
+							{% comment %} <li><a href="{%url 'faq'%}"><i class="fa fa-question-circle"></i>Ask a Question</a></li> {% endcomment %}
+							<li><a href="javascript:;"><i class="fa fa-envelope-o"></i>solulearn@gmail.com</a></li>
+						{% comment %} </ul>
 					</div>
 					<div class="topbar-right">
-						<ul>
+						<ul> {% endcomment %}
 							<li>
-								<div id ="google_translate_element" > </div>
+								<select class="header-lang-bx">
+									<option data-icon="flag flag-uk">English UK</option>
+									<option data-icon="flag flag-us">English US</option>
+								</select>
 							</li>
+						
 							{% if user.is_authenticated %}
 							<li class="upper">{{user}} | <a href="{% url 'logout' %}">Logout</a> </li>
                             {% else %}
-							<li><a href="{% url 'login' %}">Login</a></li>
-							<li><a href="{% url 'signup' %}">Register</a></li>
+							<li><a href="{% url 'login' %}">Signin</a></li>
                             {% endif%}
-						</ul>
-					</div>
+						{% comment %} </ul>
+					</div> {% endcomment %}
 				</div>
 			</div>
 		</div>
@@ -50,11 +52,9 @@
                     <div class="secondary-menu">
                         <div class="secondary-inner">
                             <ul>
-								<li><a href="javascript:;" class="btn-link"><i class="fa fa-facebook"></i></a></li>
-								<li><a href="javascript:;" class="btn-link"><i class="fa fa-google-plus"></i></a></li>
+								<li><a href="javascript:;" class="btn-link"><i class="fa fa-github"></i></a></li>
 								<li><a href="javascript:;" class="btn-link"><i class="fa fa-linkedin"></i></a></li>
 								<!-- Search Button ==== -->
-								<li class="search-btn"><button id="quik-search-btn" type="button" class="btn-link"><i class="fa fa-search"></i></button></li>
 							</ul>
 						</div>
                     </div>
@@ -72,8 +72,8 @@
 							<a href="{% url 'homepage' %}"><img src="{% static 'assets/images/logo.png' %}" alt=""></a>
 						</div>
                         <ul class="nav navbar-nav">	
-							<li class="active"><a href="{% url 'homepage' %}">Home  </a> </li>
-							<li class="active"><a href="{% url 'about' %}">About  </a> </li>
+							<li class="{% if request.path  == '' %} active {%endif%}"><a href="{% url 'homepage' %}">Home  </a> </li>
+							<li class="{% if request.path  == '/about-us' %} active {%endif%}"><a href="{% url 'about' %}">About  </a> </li>
 							
 							<li class="add-mega-menu"><a href="javascript:;">Our Courses <i class="fa fa-chevron-down"></i></a>
 								<ul class="sub-menu add-menu">
@@ -83,7 +83,7 @@
 											<li><a href="{% url 'all-courses' %}">All Courses </a></li>
 											{% for category in courseCategories  %}
 											
-											<li><a href="{% url 'all-courses'  %}?sort={{category.name}}">{{category.name}} </a></li>
+											<li><a href="{% url 'all-courses'  %}?category={{category.name}}">{{category.name}} </a></li>
 											{% endfor %}
 											
 										</ul>
@@ -99,8 +99,7 @@
 								{% endif %}
 						</ul>
 						<div class="nav-social-link">
-							<a href="javascript:;"><i class="fa fa-facebook"></i></a>
-							<a href="javascript:;"><i class="fa fa-google-plus"></i></a>
+							<a href="javascript:;"><i class="fa fa-github"></i></a>
 							<a href="javascript:;"><i class="fa fa-linkedin"></i></a>
 						</div>
                     </div>
@@ -130,26 +129,26 @@
 						</div>
 						<div class="pt-social-link">
 							<ul class="list-inline m-a0">
-								<li><a href="#" class="btn-link"><i class="fa fa-facebook"></i></a></li>
-								<li><a href="#" class="btn-link"><i class="fa fa-twitter"></i></a></li>
+								<li><a href="#" class="btn-link"><i class="fa fa-github"></i></a></li>
 								<li><a href="#" class="btn-link"><i class="fa fa-linkedin"></i></a></li>
-								<li><a href="#" class="btn-link"><i class="fa fa-google-plus"></i></a></li>
 							</ul>
 						</div>
 						<div class="pt-btn-join">
-							<a href="#" class="btn ">Get Started</a>
+							{% if not user.is_authenticated %}
+							<a href="{% url 'signup' %}" class="btn ">Get Started</a>
+							{% endif %}
 						</div>
 					</div>
 				</div>
 			</div>
             <div class="container">
                 <div class="row">
-					<div class="col-lg-4 col-md-12 col-sm-12 footer-col-4">
+					<div class="col-lg-6 col-md-12 col-sm-12 footer-col-4">
                         <div class="widget">
                             <h5 class="footer-title">Sign Up For A Newsletter</h5>
-							<p class="text-capitalize m-b20">Weekly Breaking news analysis and cutting edge advices on job searching.</p>
+							<p class="text-capitalize m-b20">Subscribe to our newsletter. to be notified of new courses.</p>
                             <div class="subscribe-form m-b20">
-								<form class="subscription-form" action="http://educhamp.themetrades.com/demo/assets/script/mailchamp.php" method="post">
+								<form class="subscription-form" action="" method="post">
 									<div class="ajax-message"></div>
 									<div class="input-group">
 										<input name="email" required="required"  class="form-control" placeholder="Your Email Address" type="email">
@@ -163,40 +162,20 @@
                     </div>
 					<div class="col-12 col-lg-5 col-md-7 col-sm-12">
 						<div class="row">
-							<div class="col-4 col-lg-4 col-md-4 col-sm-4">
+							<div class="col-6 col-lg-6 col-md-6 col-sm-6 text-center">
 								<div class="widget footer_widget">
-									<h5 class="footer-title">Company</h5>
+									<h5 class="footer-title">Quicklinks</h5>
 									<ul>
 										<li><a href="{% url 'homepage' %}">Home</a></li>
 										<li><a href="{% url 'about' %}">About</a></li>
 										<li ><a href="{% url 'faq' %}">FAQs </a> </li>
-
 										<li><a href="{% url 'contact' %}">Contact</a></li>
-									</ul>
-								</div>
-							</div>
-							<div class="col-4 col-lg-4 col-md-4 col-sm-4">
-								<div class="widget footer_widget">
-									<h5 class="footer-title">Quicklinks</h5>
-									<ul>
+
 										<li><a href="{% url 'blog' %}">Blog</a></li>
-										<li><a href="portfolio.html">Portfolio</a></li>
-										<li><a href="event.html">Event</a></li>
 									</ul>
 								</div>
 							</div>
-							<div class="col-4 col-lg-4 col-md-4 col-sm-4">
-								<div class="widget footer_widget">
-									<h5 class="footer-title">Courses</h5>
-									<ul>
-										<li><a href="{% url 'all-courses' %}">All Courses</a></li>
-										{% if user.is_authenticated %}
-										<li><a href="courses-details.html">My Courses </a></li>
-										{% endif %}
-									
-									</ul>
-								</div>
-							</div>
+							
 						</div>
                     </div>
 					
@@ -204,13 +183,6 @@
             </div>
         </div>
 
-        <div class="footer-bottom">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12 text-center"><a target="_blank" href="https://www.templateshub.net">Templates Hub</a></div>
-                </div>
-            </div>
-        </div>
     </footer>
     <!-- Footer END ==== -->
     <button class="back-to-top fa fa-chevron-up" ></button>

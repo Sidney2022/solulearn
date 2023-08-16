@@ -22,9 +22,10 @@
                      
   
                         <div class="col-auto">
-                            <form class="table-search-form row gx-1 align-items-center">
+                            <form class="table-search-form row gx-1 align-items-center" action="{% url 'search' %}">
+                                {% comment %} {% csrf_token %} {% endcomment %}
                                 <div class="col-auto">
-                                    <input type="text" id="search-orders" name="searchorders" class="form-control search-orders" placeholder="Search">
+                                    <input type="text" id="search" name="q" class="form-control search-orders" placeholder="Search">
                                 </div>
                                 <div class="col-auto">
                                     <button type="submit" class="btn app-btn-secondary">Search</button>
@@ -54,7 +55,7 @@
                                   <th scope="col" class="cell">Thumbnail </th>
                                   <th scope="col" class="cell">Enrolled Students</th>
                                   <th scope="col" class="cell">Status </th>
-                                  <th scope="col" class="cell">Action </th>
+                                  <th scope="col" colspan="2" class="cell">Action </th>
                                 </tr>
                               </thead>
                               <tbody >
@@ -72,11 +73,16 @@
                                     {% else %}
                                     <td class="cell"><span class="btn button-sm yellow">{{ course.status}}</span></td>
                                     {% endif %}
+                                    {%if not course.is_created%}
+                                    <td class="cell "> <span class="btn button-sm bg-info"><a href="{% url 'create-lessons' course.slug %}">finish creation</a></span> </td>
+                                    {% else %}
+                                    <td class="cell "> <span class="btn button-sm bg-info"><a href="{% url 'course-detail' course.slug %}">View</a></span> </td>
+                                    {% endif %}
                                     <td class="cell"><button id="buy-btn" class="btn button-sm text-white red"><i class="fa fa-trash-o"></i> <span id="details" style="display:none;">++{{course.slug}}</span></button></td>
                                 </tr>
                                 
                                       <div id="confirm-buy-card" class="card p-4 " style="position: absolute; top:50%; left:50%; width:300px; height:200px; transform: translate(-50%, -50%); padding: 20px; background-color: white; border: 1px solid black; box-shadow: 10px 10px 5px; display:none">
-                                          <p> Are you sure you want to buy the course "<span class="cap text-primary text-primary " id="buy-msg"></span> "?</p>
+                                          <p> Are you sure you want to delete the course "<span class="cap text-primary text-primary " id="buy-msg"></span> "?</p>
                                           
                                           <div class="row">
                                           <div class="col-auto">

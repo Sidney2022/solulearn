@@ -1,0 +1,151 @@
+{% extends 'tutors/base.html' %}
+{% load static %}
+{% block content %}
+
+
+
+
+<div class="ttr-wrapper pl-3 pr-3">
+    <div class="container-xl" style="position: relative;">
+      {% comment %}top cards {% endcomment %}
+     
+        {% include 'messages.html' %}
+        
+        <div class="row g-3 mb-4 align-items-center justify-content-between">
+            <div class="col-auto">
+                <h3 class="app-page-title mb-0 text-primary">Search results for {{search_q}} </h3>
+            </div>
+            <div class="col-auto">
+                 <div class="page-utilities">
+                    <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
+  
+                     
+  
+                        <div class="col-auto">
+                            <form class="table-search-form row gx-1 align-items-center" action="{% url 'search' %}">
+                                <div class="col-auto">
+                                    <input type="text" id="search" name="q" class="form-control search-orders" placeholder="Search">
+                                </div>
+                                <div class="col-auto">
+                                    <button type="submit" class="btn app-btn-secondary">Search</button>
+                                </div>
+                            </form>
+                            
+                        </div><!--//col-->
+                 
+                        
+                    </div><!--//row-->
+                </div><!--//table-utilities-->
+            </div><!--//col-auto-->
+        </div><!--//row-->
+    
+        <div class="tab-content" id="orders-table-tab-content">
+            <div class="tab-pane fade show active" id="orders-all" role="tabpanel" aria-labelledby="orders-all-tab">
+                <div class="app-card app-card-orders-table shadow-sm mb-5">
+                    <div class="app-card-body">
+                        <div class="table-responsive p-1">
+                            <table class="table table-striped table-sm-sm text-center">
+                              <thead>
+                                <tr>
+                                  <!-- <th scope="col">#</th> -->
+                                  <th scope="col" class="cell">#</th>
+                                  <th scope="col" class="cell">Title</th>
+                                  <th scope="col" class="cell">Price ($)</th>
+                                  <th scope="col" class="cell">Thumbnail </th>
+                                  <th scope="col" class="cell">Enrolled Students</th>
+                                  <th scope="col" class="cell">Status </th>
+                                  <th scope="col" colspan="2" class="cell">Action </th>
+                                </tr>
+                              </thead>
+                              <tbody >
+                                {% for course in search_courses %}
+                                <tr class="cap ">
+                                    <td class="cell">{{course.id}}</td>
+                                    <td class="cell">{{course.title}}</td>
+                                    <td class="cell">{{course.price}}</td>
+                                    <td class="cell"> <a href="{% url 'course-detail' course.slug %}" > <img width=100px src="{{course.thumbnail.url}}" alt=""/> </a> </td>
+                                    <td class="cell">{{course.no_enrolled_stds}}</td>
+                                    {% if course.status == 'published' %}
+                                    <td class="cell"><span class="btn button-sm green">{{ course.status}}</span></td>
+                                    {% elif course.status == 'declined' %}
+                                    <td class="cell"><span class="btn button-sm red">{{ course.status}}</span></td>
+                                    {% else %}
+                                    <td class="cell"><span class="btn button-sm yellow">{{ course.status}}</span></td>
+                                    {% endif %}
+                                    {%if not course.is_created%}
+                                    <td class="cell "> <span class="btn button-sm bg-info">finish creation</span> </td>
+                                    {% else %}
+                                    <td class="cell "> <span class="btn button-sm bg-info">View</span> </td>
+                                    {% endif %}
+                                    <td class="cell"><button id="buy-btn" class="btn button-sm text-white red"><i class="fa fa-trash-o"></i> <span id="details" style="display:none;">++{{course.slug}}</span></button></td>
+                                </tr>
+                                
+                                      <div id="confirm-buy-card" class="card p-4 " style="position: absolute; top:50%; left:50%; width:300px; height:200px; transform: translate(-50%, -50%); padding: 20px; background-color: white; border: 1px solid black; box-shadow: 10px 10px 5px; display:none">
+                                          <p> Are you sure you want to delete the course "<span class="cap text-primary text-primary " id="buy-msg"></span> "?</p>
+                                          
+                                          <div class="row">
+                                          <div class="col-auto">
+                                              <button id = "cancel-btn" class="btn btn-success btn-danger text-white">Cancel</button>
+                                          </div>
+                                          <div class="col-auto">
+                                              <a id="ok-btn" href="" class="btn btn bg-success text-white">Yes, Delete</a>
+  
+                                          </div>
+                                          </div>
+                                      </div>
+                                              
+                                {% empty %}
+                                <td class="cell text-center" colspan="8">No courses Created Yet </td>
+                                {% endfor %}
+                              </tbody>
+                            </table>
+                          </div>
+                       
+                    </div><!--//app-card-body-->		
+                </div><!--//app-card-->
+               
+                {% comment %} <nav class="app-pagination ">
+                    <ul class="pagination justify-content-center">
+                        {% if page.has_previous %}
+                        <li class="page-item ">
+                            <a class="page-link" href="?page={{ page.previous_page_number }}" tabindex="-1">Previous</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item ">
+                            <a class="page-link disabled" href="" tabindex="-1" aria-disabled="true" >Previous</a>
+                        </li>
+                        {% endif %}
+                        {% for page_num in page.paginator.page_range %}
+                            {% if page_num == page.number %}
+                        <li class="page-item active"><a class="page-link" href="#">{{ page_num }}</a></li>
+                        {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a></li>
+                        {% endif %}
+                        {% endfor %}
+  
+                        {% if page.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page.next_page_number }}">Next</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item">
+                            <a class="page-link disabled" aria-disabled="true" href="">Next</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                      {% endcomment %}
+            </div><!--//tab-pane-->
+  
+        </div><!--//tab-content-->
+          
+</div><!--//container-fluid-->
+
+  
+  
+{% endblock  %}
+
+
+
+
+

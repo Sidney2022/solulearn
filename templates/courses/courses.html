@@ -33,13 +33,15 @@
 										</div>
 										<div class="cours-more-info">
 											<div class="review">
-												<span>{{course.no_of_reviews}} Review</span>
+												<span>{{course.no_reviews}} Review</span>
 												<ul class="cours-star">
+													{% for i in "12345" %}
+													{% if i|add:0 <= course.average_rating %}
 													<li class="active"><i class="fa fa-star"></i></li>
-													<li class="active"><i class="fa fa-star"></i></li>
-													<li class="active"><i class="fa fa-star"></i></li>
-													<li><i class="fa fa-star"></i></li>
-													<li><i class="fa fa-star"></i></li>
+													{% else %}
+													<li class="no-star"><i class="fa fa-star"></i></li>
+													{% endif %}
+													{% endfor %}
 												</ul>
 											</div>
 											

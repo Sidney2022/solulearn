@@ -76,8 +76,8 @@
 
                         <form action="{% url 'comp-course' %}" method ="post" id="complete-form">
                             <input required class="form-control" type="hidden" value="{{course.slug}}" name="course">
-add confirmation msg to this form
-                        <button type="submit" id="" class="btn ">Done </button>
+                                {% comment %} add confirmation msg to this form {% endcomment %}
+                        <button type="submit" id="" class="btn ">Finish </button>
                         </form>
                     </div>
                 </div>
@@ -138,11 +138,11 @@ add confirmation msg to this form
         <tr>
           <th>ID</th>
           <th>Lesson Title</th>
-          <th>Lesson Conten</th>
+          <th>Lesson Content</th>
           <th>Action</th>
          
         </tr>
-      </thead>`
+    </thead>`
   data.data.forEach(entry => {
     const row = TableBody.insertRow()
     const cell1 = row.insertCell(0)

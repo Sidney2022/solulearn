@@ -1,5 +1,4 @@
 {% extends 'main/base.html' %}
-{% load static %}
 
 {% block content %}
 
@@ -101,22 +100,22 @@ function trackVideoPlay() {
 		const videoDuration = videoPlayer.duration
 		const current_time = videoPlayer.currentTime
 		const playedPercentage = (current_time / videoDuration) * 100
-		console.log({ "videoPlayer object":videoPlayer, "percent":playedPercentage})
+		//console.log({ "videoPlayer object":videoPlayer, "percent":playedPercentage})
 		if (playedPercentage >= 5 ) {
 			fetch("{% url 'lesson-complete' course.slug %}?lesson={{lesson.slug}}", {
 				method: "GET",
 				})
 				.then((res) => res.json())
 				.then((data) => {
-				  console.log("data", data);
+				//  console.log("data", data);
 				if (data.field_error ) {
 					alert("course already exists")
 				}
 			});
 			if (playedPercentage >= 10 ) {
-				console.log(next_lesson.value)
-				if (next_lesson.value === "None") {
-			window.location.href = "{% url 'course-detail' course.slug %}"
+				//console.log(next_lesson.value)
+				if (next_lesson.value === "completed") {
+			window.location.href = "{% url 'homepage'  %}"
 		} else {
 
 			window.location.href = "{% url 'single-lesson' course.slug %}?q={{next_lesson}}"

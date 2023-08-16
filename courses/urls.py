@@ -9,9 +9,9 @@ from django.contrib.auth.decorators import login_required
 urlpatterns = [
     path('',  views.courses, name='all-courses'),
     path('<slug:slug>/get-lessons',  views.asyncLesson, name='get-lessons'),
-    path('comp-couse',  csrf_exempt(views.complete_course_creation), name='comp-course'),
+    path('comp-course',  csrf_exempt(views.complete_course_creation), name='comp-course'),
     path('create-course',  login_required(CourseCreateView.as_view()), name='add-course'),
-    path('create-course/<slug:slug>/lessons',  CreateLessons.as_view(), name='create-lessons'),
+    path('create-course/<slug:slug>/lessons',  login_required(CreateLessons.as_view()), name='create-lessons'),
     path('<slug:slug>',  CourseView.as_view(), name='course-detail'),
     path('<slug:slug>/lessons',  login_required(GetLesson.as_view()), name='single-lesson'),
 

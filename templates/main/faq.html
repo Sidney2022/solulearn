@@ -1,5 +1,4 @@
 {% extends 'main/base.html' %}
-{% load static %}
 {% block content %}
 
   
@@ -12,108 +11,75 @@
 					<div class="heading-bx left">
 						<h2 class="m-b10 title-head"><span>Frequently Asked  </span>Questions</h2>
 					</div>
-					<p class="m-b10">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it.</p>
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it.</p>
+					<p class="m-b10"> </p>
 					<div class="ttr-accordion m-b30 faq-bx" id="accordion1">
 						<div class="panel">
 							<div class="acod-head">
 								<h6 class="acod-title"> 
 									<a data-toggle="collapse" href="#faq1" class="collapsed" data-parent="#faq1">
-									What is Educhamp/Solulearn? </a> </h6>
+										What is an LMS?</a> </h6>
 							</div>
 							<div id="faq1" class="acod-body collapse">
-								<div class="acod-content">Solulearn is an learning management system (LMS) built using django. The template used is EDUCHAMP. A free html template from templteshub</div>
+								<div class="acod-content">
+									A Learning Management System (LMS) is a software platform that facilitates the creation, delivery, and management of online courses and learning materials. It provides a centralized hub for learners and educators to access content, participate in discussions, track progress, and collaborate.
+
+								</div>
 							</div>
 						</div>
 						<div class="panel">
 							<div class="acod-head">
 								<h6 class="acod-title"> 
 									<a data-toggle="collapse" href="#faq2" class="collapsed" data-parent="#faq2">
-										Is this a real LMS?</a> </h6>
+										What are the benefits of using an LMS?</a> </h6>
 							</div>
 							<div id="faq2" class="acod-body collapse">
-								<div class="acod-content"> This website was built as a demo project. However it could be sold if needed 😉. I am open to collaboration/sponsorship/job offers</div>
+								<div class="acod-content"> 
+									<ol class="p-2 acod-content" >
+										<li>	Convenience: Learners can access course materials anytime, anywhere, and at their own pace. </li>
+										<li>	Scalability: LMSs can accommodate large numbers of learners, making it suitable for both small and large organizations. </li>
+										<li>	Collaboration: LMSs often include features that promote interaction and collaboration among learners, fostering engagement and knowledge sharing. </li>
+										<li>	Tracking and Reporting: LMSs provide detailed analytics and reporting capabilities, allowing educators to monitor learner progress and identify areas for improvement. </li>
+										<li>	Efficiency: Automating administrative tasks, such as grading and enrollment, saves time and resources for educators and institutions. </li>
+									</ol>
+								</div>
 							</div>
 						</div>
 						<div class="panel">
 							<div class="acod-head">
 								<h6 class="acod-title"> 
 									<a data-toggle="collapse"  href="#faq3" class="collapsed"  data-parent="#faq3">
-									How do? </a> </h6>
+										Can I create and manage my own courses on your LMS?</a> </h6>
 							</div>
 							<div id="faq3" class="acod-body collapse">
-								<div class="acod-content">Developement aorem apsum dolor sit amet, adipiscing elit, sed diam nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</div>
+								<div class="acod-content">
+									Yes! Our LMS provides robust course creation and management tools. Educators can easily create and upload course content, including videos, presentations, documents, and quizzes. You have full control over the course structure, curriculum, and assessment methods.
+								</div>
 							</div>
 						</div>
 						<div class="panel">
 							<div class="acod-head">
 								<h6 class="acod-title"> 
 									<a data-toggle="collapse"  href="#faq4" class="collapsed"  data-parent="#faq4">
-									Why aren't my courses showing in my account? </a> </h6>
+										Can learners interact with each other and the instructor? </a> </h6>
 							</div>
 							<div id="faq4" class="acod-body collapse">
-								<div class="acod-content">Developement aorem apsum dolor sit amet, adipiscing elit, sed diam nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</div>
+								<div class="acod-content">Absolutely! Our LMS fosters collaboration and communication among learners and instructors. It includes features such as discussion boards, live chat, and messaging systems that enable learners to interact with each other, ask questions, and seek clarification from instructors.</div>
 							</div>
 						</div>
 						<div class="panel">
 							<div class="acod-head">
 								<h6 class="acod-title"> 
 									<a data-toggle="collapse"  href="#faq5" class="collapsed"  data-parent="#faq5">
-									Changing account name </a> </h6>
+										Can I integrate your LMS with other systems or platforms?
+									</a> </h6>
 							</div>
 							<div id="faq5" class="acod-body collapse">
-								<div class="acod-content">Developement aorem apsum dolor sit amet, adipiscing elit, sed diam nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</div>
+								<div class="acod-content">No. But we are working on making an API available for that in the future</div>
 							</div>
 						</div>
 					</div>
-					<p class="m-b10">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it.</p>
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it.</p>
-					<div class="row">
-						<div class="col-lg-6 col-md-6 col-sm-6 m-b30">
-							<div class="feature-container">
-								<div class="feature-md text-white m-b20">
-									<a href="#" class="icon-cell"><img src="{% static 'assets/images/icon/icon1.png' %}" alt=""></a> 
-								</div>
-								<div class="icon-content">
-									<h5 class="ttr-tilte">Our Philosophy</h5>
-									<p>Lorem ipsum dolor sit amet, consectetuer adipiscing.</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-6 col-md-6 col-sm-6 m-b30">
-							<div class="feature-container">
-								<div class="feature-md text-white m-b20">
-									<a href="#" class="icon-cell"><img src="{% static 'assets/images/icon/icon2.png' %}" alt=""></a> 
-								</div>
-								<div class="icon-content">
-									<h5 class="ttr-tilte">Kingster's Principle</h5>
-									<p>Lorem ipsum dolor sit amet, consectetuer adipiscing.</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-6 col-md-6 col-sm-6 m-b30">
-							<div class="feature-container">
-								<div class="feature-md text-white m-b20">
-									<a href="#" class="icon-cell"><img src="{% static 'assets/images/icon/icon3.png' %}" alt=""></a> 
-								</div>
-								<div class="icon-content">
-									<h5 class="ttr-tilte">Key Of Success</h5>
-									<p>Lorem ipsum dolor sit amet, consectetuer adipiscing.</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-6 col-md-6 col-sm-6 m-b30">
-							<div class="feature-container">
-								<div class="feature-md text-white m-b20">
-									<a href="#" class="icon-cell"><img src="{% static 'assets/images/icon/icon4.png' %}" alt=""></a> 
-								</div>
-								<div class="icon-content">
-									<h5 class="ttr-tilte">Our Philosophy</h5>
-									<p>Lorem ipsum dolor sit amet, consectetuer adipiscing.</p>
-								</div>
-							</div>
-						</div>
-					</div>
+					<p class="m-b10">If you have any further questions or need additional information, please don't hesitate to <a style="color:teal" href="{% url 'contact' %}">CONTACT US </a>. We're here to assist you on your learning journey!</p>
+					
 				</div>
 		
 	</div>

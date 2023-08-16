@@ -6,11 +6,11 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12 text-center text-white">
-				<h2>Online Courses To Learn</h2>
-				<h5>Own Your Feature Learning New Skills Online</h5>
-				<form class="cours-search">
+				<h2>Learn Courses Online</h2>
+				<h5>Learn or Level up Your Skills With Our Online Courses</h5>
+				<form class="cours-search" action="{% url 'all-courses' %}">
 					<div class="input-group">
-						<input type="text" class="form-control" placeholder="What do you want to learn today?	">
+						<input type="text" class="form-control" placeholder="What do you want to learn today?" name="q">
 						<div class="input-group-append">
 							<button class="btn" type="submit">Search</button> 
 						</div>
@@ -24,7 +24,7 @@
 					<div class="cours-search-bx m-b30">
 						<div class="icon-box">
 							<h3><i class="ti-user"></i><span class="counter">{{total_students}}</span>M</h3>
-						</div> {% if total_students > 0 %}true{% endif %}
+						</div> 
 						<span class="cours-search-text">Over {{total_students}} million students</span>
 					</div>
 				</div>
@@ -33,7 +33,7 @@
 						<div class="icon-box">
 							<h3><i class="ti-book"></i><span class="counter">{{total_courses}}</span>K</h3>
 						</div>
-						<span class="cours-search-text">30,000 Courses.</span>
+						<span class="cours-search-text">{{total_courses}} Courses.</span>
 					</div>
 				</div>
 				
@@ -58,7 +58,7 @@
 			<div class="item">
 				<div class="cours-bx">
 					<div class="action-box">
-						<img src="{% static 'assets/images/courses/pic1.jpg' %}" alt="">
+						<img src="{{course.thumbnail.url}}" style="height:200px" alt="">
 						<a href="{% url 'course-detail' course.slug %}" class="btn">Read More</a>
 					</div>
 					<div class="info-bx text-center">
@@ -67,13 +67,16 @@
 					</div>
 					<div class="cours-more-info">
 						<div class="review">
-							<span>{{course.no_reviews}} Review</span>
+							<span>{{course.no_reviews}} Review </span>
 							<ul class="cours-star">
+								{% for i in "12345" %}
+								{% if i|add:0 <= course.average_rating %}
 								<li class="active"><i class="fa fa-star"></i></li>
-								<li class="active"><i class="fa fa-star"></i></li>
-								<li class="active"><i class="fa fa-star"></i></li>
-								<li><i class="fa fa-star"></i></li>
-								<li><i class="fa fa-star"></i></li>
+								{% else %}
+								<li class="no-star"><i class="fa fa-star"></i></li>
+								{% endif %}
+								{% endfor %}
+								
 							</ul>
 						</div>
 						<div class="price">
@@ -95,14 +98,15 @@
 	</div>
 </div>
 <!-- Popular Courses END -->
-<div class="section-area section-sp2 bg-fix ovbl-dark join-bx text-center" style="background-image:url(assets/images/background/bg1.jpg);">
+<div class="section-area section-sp2 bg-fix ovbl-dark join-bx text-center " style="background-image:url(/static/assets/images/background/bg1.jpg);">
 	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
+		<div class="row ">
+			<div class="col-md-12 p-5">
 				<div class="join-content-bx text-white">
 					<h2>Learn a new skill online on <br> your time</h2>
-					<h4><span class="counter">57,000</span> Online Courses</h4>
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+					<p>
+						Learn a new skill online, on your time. With over 57,000 online courses, Solulearn offers a flexible learning experience that fits seamlessly into your busy schedule. Access high-quality content from industry experts, engage with a vibrant community of learners, and explore a diverse range of subjects. Start your learning journey today and unlock your full potential.
+					</p>
 					{% if user.is_authenticated %}
 					<a href="{% url 'all-courses' %}" class="btn button-md">Continue To Courses</a>
 					{% else %}
@@ -118,13 +122,15 @@
 	<div class="container">
 		 <div class="row">
 			 <div class="col-lg-6 m-b30">
-				<h2 class="title-head ">Learn a new skill online<br> <span class="text-primary"> on your time</span></h2>
-				<h4><span class="counter">57,000</span> Online Courses</h4>
-				<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type.</p>
+				<h2 class="title-head ">Skill up today<br> <span class="text-primary"> </span></h2>
+			
+				<p>
+					Join us on the journey of lifelong learning and discover the endless possibilities that our Learning Management System offers. Whether you are an educational institution, a corporation, or an individual learner, Solulearn is here to empower you to thrive in the digital learning landscape.
+				</p>
 				{% if user.is_authenticated %}
 					<a href="{% url 'all-courses' %}" class="btn button-md">Continue To Courses</a>
 					{% else %}
-					<a href="{% url 'signup' %}" class="btn button-md">Get Started</a>
+					<a href="{% url 'about' %}" class="btn button-md">About Us</a>
 					{% endif %}
 			 </div>
 			 <div class="col-lg-6">
@@ -180,41 +186,34 @@
 </div>
 
 <!-- Testimonials -->
-<div class="section-area section-sp1 bg-fix ovbl-dark text-white" style="background-image:url(assets/images/background/bg1.jpg);">
+<div class="section-area section-sp1 bg-fix ovbl-dark text-white" style="background-image:url(/static/assets/images/background/bg1.jpg);">
 	<div class="container">
-		<div class="row">
-				<div class="col-lg-3 col-md-6 col-sm-6 col-6 m-b30">
+		<div class="row text-center">
+				<div class="col-lg-4 col-md-6 col-sm-6 col-6 m-b30">
 					<div class="counter-style-1">
 						<div class="text-white">
-							<span class="counter">3000</span><span>+</span>
+							<span class="counter">{{total_users}}</span><span>+</span>
 						</div>
-						<span class="counter-text">Completed Projects</span>
+						<span class="counter-text">users</span>
 					</div>
 				</div>
-				<div class="col-lg-3 col-md-6 col-sm-6 col-6 m-b30">
+				<div class="col-lg-4 col-md-6 col-sm-6 col-6 m-b30">
 					<div class="counter-style-1">
 						<div class="text-white">
-							<span class="counter">2500</span><span>+</span>
+							<span class="counter">{{total_courses}}</span><span>+</span>
 						</div>
-						<span class="counter-text">Happy Clients</span>
+						<span class="counter-text">courses</span>
 					</div>
 				</div>
-				<div class="col-lg-3 col-md-6 col-sm-6 col-6 m-b30">
+				<div class="col-lg-4 col-md-6 col-sm-6 col-6 m-b30">
 					<div class="counter-style-1">
 						<div class="text-white">
-							<span class="counter">1500</span><span>+</span>
+							<span class="counter">{{total_enrolled_courses}}</span><span>+</span>
 						</div>
-						<span class="counter-text">Questions Answered</span>
+						<span class="counter-text">enrolled courses</span>
 					</div>
 				</div>
-				<div class="col-lg-3 col-md-6 col-sm-6 col-6 m-b30">
-					<div class="counter-style-1">
-						<div class="text-white">
-							<span class="counter">1000</span><span>+</span>
-						</div>
-						<span class="counter-text">Ordered Coffee's</span>
-					</div>
-				</div>
+				
 			</div>
 	</div>
 </div>
@@ -225,7 +224,7 @@
 		<div class="row">
 			<div class="col-md-12 heading-bx left">
 				<h2 class="title-head text-uppercase">what people <span>say</span></h2>
-				<p>It is a long established fact that a reader will be distracted by the readable content of a page</p>
+				<p>Hear what some of our customers have to say</p>
 			</div>
 		</div>
 		<div class="testimonial-carousel owl-carousel owl-btn-1 col-12 p-lr0">
@@ -235,11 +234,11 @@
 						<img src="{% static 'assets/images/testimonials/pic1.jpg' %}" alt="">
 					</div>
 					<div class="testimonial-info">
-						<h5 class="name">Peter Packer</h5>
-						<p>-Art Director</p>
+						<h5 class="name">Sarah</h5>
+						<p>-Educator</p>
 					</div>
 					<div class="testimonial-content">
-						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type...</p>
+						<p>"I have been using Solulearn's LMS for over a year, and it has truly transformed my teaching experience. The platform is intuitive and easy to navigate, allowing me to create engaging courses with interactive content. My students love the collaborative features and personalized learning options. The analytics and reporting tools have helped me track their progress effectively. Thank you, Solulearn, for revolutionizing online education!"</p>
 					</div>
 				</div>
 			</div>
@@ -249,11 +248,28 @@
 						<img src="{% static 'assets/images/testimonials/pic2.jpg' %}" alt="">
 					</div>
 					<div class="testimonial-info">
-						<h5 class="name">Peter Packer</h5>
-						<p>-Art Director</p>
+						<h5 class="name">Mark</h5>
+						<p>- Corporate Training Manager</p>
 					</div>
 					<div class="testimonial-content">
-						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type...</p>
+						<p>"Our organization recently adopted Solulearn's LMS, and we couldn't be happier with the results. The platform has streamlined our training process, making it efficient and accessible for our employees. The ability to create custom courses and track individual progress has been invaluable. The support team at Solulearn has been responsive and helpful throughout the implementation process. We highly recommend their LMS for any company looking to enhance their employee training programs."
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="item">
+				<div class="testimonial-bx">
+					<div class="testimonial-thumb">
+						<img src="{% static 'assets/images/testimonials/pic3.jpg' %}" alt="">
+					</div>
+					<div class="testimonial-info">
+						<h5 class="name">Billy</h5>
+						<p>- Student</p>
+					</div>
+					<div class="testimonial-content">
+						<p>"As a busy college student, Solulearn's LMS has been a game-changer for me. I appreciate the flexibility it offers, allowing me to access course materials and complete assignments at my own pace. The interactive features, such as discussion boards and virtual classrooms, have made online learning engaging and interactive. The user-friendly interface makes navigation a breeze. Thank you, Solulearn, for providing an exceptional learning experience!"
+
+						</p>
 					</div>
 				</div>
 			</div>

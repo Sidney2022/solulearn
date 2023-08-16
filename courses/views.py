@@ -8,6 +8,7 @@ from django.http import JsonResponse
 from django.contrib import messages
 from django.conf import settings
 from django.urls import reverse
+from django.db.models import Q
 from django.views import View
 from .forms import CourseForm
 import json
@@ -15,10 +16,14 @@ import os
 
 
 def courses(request):
-    category = request.GET.get('sort')
+    category = request.GET.get('category')
+    title = request.GET.get('q')
     if category:
         category = CourseCategory.objects.filter(name=category).first()
         courses = Course.objects.filter(category=category, status="published", is_created=True)
+    elif title:
+        # courses = Course.objects.filter(Q( title__icontains=search_str) | Q( category__name__icontains=search_str))
+        courses = Course.objects.filter(Q(title__icontains=title, status="published", is_created=True) | Q(category__name__icontains=title, status="published", is_created=True) )
     else:
         courses = Course.objects.filter(status="published", is_created=True)
     recent_courses = courses.order_by('-date')[:5]
@@ -90,6 +95,7 @@ class CourseView(View):
         no_enrolled = len(EnrolledCourse.objects.filter(course=course))
         lessons = Lesson.objects.filter(course=course,user=course.instructor)
         no_lessons = len(lessons)
+        
         context = {
             "course":course, 
             "features":features,
@@ -141,16 +147,22 @@ class GetLesson(View):
             return redirect(reverse('course-detail', args=[course.slug]))
         lessons = Lesson.objects.filter(course=course)
         lesson_slug = request.GET.get("q")
+        print(lesson_slug)
         if lesson_slug:
             lesson  = get_object_or_404(Lesson, slug=lesson_slug, course=course)
         else:
-            lesson = lessons.exclude(is_complete=True).order_by('id').first()
-        
+            completed_lessons = [std_comp_less.lesson  for std_comp_less in CompletedLesson.objects.filter(course=course, student=request.user)]
+            unfinished_lessons = [comp_lesson for comp_lesson in lessons if not comp_lesson in completed_lessons]
+            if unfinished_lessons:
+                lesson = unfinished_lessons[0]
+            else:
+                lesson  = lessons.exclude(is_complete=True).order_by('id').first()
         next_lesson = lessons.filter(lesson_no = lesson.lesson_no+1).first()
         if next_lesson == None:
-            next_lesson = "None"
+            next_lesson = "completed"
         else:
             next_lesson = next_lesson.slug
+        print(next_lesson)
             # pass in dynamic url to course completion page
         completed_lessons = CompletedLesson.objects.filter(course=course, student=request.user)
         context = {

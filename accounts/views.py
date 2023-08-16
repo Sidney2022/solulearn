@@ -82,7 +82,7 @@ class SignUp(View):
         email = request.POST['email']
         password = request.POST['password']
         password2 = request.POST['password2']
-        context = { "fieldValues": request.POST }
+        context = { "fields": request.POST }
         if Profile.objects.filter(username=username).exists():
             messages.error(request, 'username already exists')
             return render(request, 'authentication/signup.html', context)
