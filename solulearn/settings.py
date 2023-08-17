@@ -169,10 +169,10 @@ MESSAGE_TAGS = {
 }
 
 CLOUDINARY_STORAGE = {
-    'cloud_name': os.getenv('CLOUD_STORAGE_NAME'),
-    'api_key': os.getenv('CLOUD_STORAGE_API_KEY'),
-    'api_secret': os.getenv('CLOUD_STORAGE_API_SECRET'),
-    "api_proxy":"http://proxy.server:3128"
+    'CLOUD_NAME': os.getenv('CLOUD_STORAGE_NAME'),
+    'API_KEY': os.getenv('CLOUD_STORAGE_API_KEY'),
+    'API_SECRET': os.getenv('CLOUD_STORAGE_API_SECRET'),
+    "API_PROXY":"http://proxy.server:3128"
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
