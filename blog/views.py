@@ -4,24 +4,18 @@ from .models import Post, Comment
 from django.db.models import Q
 from django.urls import reverse
 from django.contrib import messages
+from django.core.paginator import Paginator
 
 
+all_posts = Post.objects.all().order_by('-timestamp')
 def blog(request):
-    try:
-        search_str = request.GET['q']
-        posts = Post.objects.filter(Q( title__icontains=search_str) | Q( content__icontains=search_str))
-        all_posts = Post.objects.all().order_by('-timestamp')
-        recent_posts = all_posts[:3]
-
-    except Exception as e :
-        posts = Post.objects.all().order_by('-timestamp')
-        recent_posts = posts[:3]
-
+    page_number = request.GET.get('page')
+    paginator = Paginator(all_posts, 10)
+    page = paginator.get_page( page_number)
     context = {
-        "posts":posts,
-        "recent_posts":recent_posts
+        "recent_posts": all_posts[:5],
+        'page':page,
     }
-    
     return render(request, 'blog/index.html', context)
 
 
@@ -38,10 +32,12 @@ def blogDetail(request, slug):
 
 def search(request):
     search_str = request.GET['q']
-    print(search_str)
     posts = Post.objects.filter(Q( title__icontains=search_str))
     context = {
             "posts":posts,
+            "search_str":search_str,
+            "recent_posts": all_posts[:5],
+
     }
     return render(request, 'blog/search.html', context)
     

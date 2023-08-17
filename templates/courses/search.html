@@ -7,7 +7,7 @@
 			<div class="container">
 				<ul class="list-inline">
 					<li><a href="{% url 'homepage' %}">Home</a></li>
-					<li>Our Courses</li>
+					<li>Search</li>
 				</ul>
 			</div>
 		</div>
@@ -16,6 +16,7 @@
             <!-- About Us -->
 			<div class="section-area section-sp1">
                 <div class="container">
+                    <p class="px-4 p"> search results for "{{search_str}}"</p>
 					 <div class="row">
 						{% include 'courses/sidebar.html' %}
 						<div class="col-lg-9 col-md-8 col-sm-12">
@@ -66,7 +67,7 @@
 								<ul class="pagination">
 									{% if page.has_previous %}
 									<li class="page-item ">
-										<a class="page-link" href="?page={{ page.previous_page_number }}" tabindex="-1"> <i class="ti-arrow-left"> Previous</i></a>
+										<a class="page-link" href="?page={{ page.previous_page_number }}&q={{search_str}}" tabindex="-1"> <i class="ti-arrow-left"> Previous</i></a>
 									</li>
 								{% else %}
 									<li class="page-item ">
@@ -77,13 +78,13 @@
 										{% if page_num == page.number %}
 									<li class="page-item active"><a class="page-link" href="#">{{ page_num }}</a></li>
 									{% else %}
-									<li class="page-item"><a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a></li>
+									<li class="page-item"><a class="page-link" href="?page={{ page_num }}&q={{search_str}}">{{ page_num }}</a></li>
 									{% endif %}
 									{% endfor %}
 			
 									{% if page.has_next %}
 									<li class="page-item">
-										<a class="page-link" href="?page={{ page.next_page_number }}">Next <i class="ti-arrow-right"></i></a>
+										<a class="page-link" href="?page={{ page.next_page_number }}&q={{search_str}}">Next <i class="ti-arrow-right"></i></a>
 									</li>
 									{% else %}
 									<li class="page-item">

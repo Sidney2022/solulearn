@@ -20,7 +20,9 @@
 							<div class="info-bx">
 								<ul class="media-post">
 									<li><a href="#"><i class="fa fa-calendar"></i>{{post.timestamp}}</a></li>
-									<li><a href="#"><i class="fa fa-comments-o"></i>10 Comment</a></li>
+									<li><a href="#"><i class="fa fa-comments-o"></i>{{post.no_comments}} Comment</a></li>
+									<li><a href="#"><i class="fa fa-eye"></i> views</a></li>
+
 								</ul>
 								<h5 class="post-title"><a >{{post.title}}</a></h5>
 						
@@ -73,45 +75,8 @@
 					</div>
 					<!-- Left part END -->
 					<!-- Side bar start -->
-					<div class="col-lg-4 col-xl-4">
-						<aside class="side-bar sticky-top">
-							<div class="widget">
-								<h6 class="widget-title">Search</h6>
-								<div class="search-bx style-1">
-									<form role="search" method="post">
-										<div class="input-group">
-											<input name="text" class="form-control" placeholder="Enter your keywords..." type="text">
-											<span class="input-group-btn">
-												<button type="submit" class="fa fa-search text-primary"></button>
-											</span> 
-										</div>
-									</form>
-								</div>
-							</div>
-							<div class="widget recent-posts-entry">
-                                <h6 class="widget-title">Recent Posts</h6>
-                                <div class="widget-post-bx">
-                                    {% for post in recent_posts %}
-                                    <div class="widget-post clearfix">
-                                        <div class="ttr-post-media"> <img src="{{post.thumbnail.url}}" width="200" height="143" alt=""> </div>
-                                        <div class="ttr-post-info">
-                                            <div class="ttr-post-header">
-                                                <h6 class="post-title"><a href="{% url 'blog-detail' post.slug %}">{{post.title}}.</a></h6>
-                                            </div>
-                                            <ul class="media-post">
-                                                <li><a href="#"><i class="fa fa-calendar"></i>{{post.timestamp}}</a></li>
-                                                <li><a href="#"><i class="fa fa-comments-o"></i>{{post.no_comments}} Comment</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    {% endfor %}
-                                </div>
-                            </div>
-							
-						
-							
-						</aside>
-					</div>
+					{% include 'blog/blog-sidebar.html' %}
+
 					<!-- Side bar END -->
 				</div>
 			</div>

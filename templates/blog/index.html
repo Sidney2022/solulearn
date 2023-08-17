@@ -5,16 +5,16 @@
 
 <div class="page-content bg-white">
     
-   
     <!-- Breadcrumb row END -->
     <!-- contact area -->
-     <div class="content-block">
+    <div class="content-block">
         <div class="section-area section-sp1">
             <div class="container">
+             
                 <div class="row">
                     <!-- Left part start -->
                     <div class="col-lg-8">
-                        {% for post  in posts %}
+                        {% for post  in page %}
                         <div class="blog-post blog-md clearfix">
                             <div class="ttr-post-media"> 
                                 <a href="#"><img src="{{post.thumbnail.url}}" alt=""></a> 
@@ -34,57 +34,42 @@
                         </div>
                         {% endfor %}
                         <!-- Pagination start -->
-                        <div class="pagination-bx rounded-sm gray clearfix">
-                            <ul class="pagination">
-                                <li class="previous"><a href="#"><i class="ti-arrow-left"></i> Prev</a></li>
-                                <li class="active"><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li class="next"><a href="#">Next <i class="ti-arrow-right"></i></a></li>
-                            </ul>
-                        </div>
+                      
+                <nav class="pagination-bx rounded-sm gray clearfix ">
+                    <ul class="pagination">
+                        {% if page.has_previous %}
+                        <li class="page-item ">
+                            <a class="page-link" href="?page={{ page.previous_page_number }}" tabindex="-1"> <i class="ti-arrow-left"> Previous</i></a>
+                        </li>
+                    {% else %}
+                        <li class="page-item ">
+                            <a class="page-link disabled" href="" tabindex="-1" aria-disabled="true" > <i class="ti-arrow-left"> Previous</i></a>
+                        </li>
+                        {% endif %}
+                        {% for page_num in page.paginator.page_range %}
+                            {% if page_num == page.number %}
+                        <li class="page-item active"><a class="page-link" href="#">{{ page_num }}</a></li>
+                        {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a></li>
+                        {% endif %}
+                        {% endfor %}
+
+                        {% if page.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page.next_page_number }}">Next <i class="ti-arrow-right"></i></a>
+                        </li>
+                        {% else %}
+                        <li class="page-item">
+                            <a class="page-link disabled" aria-disabled="true" href="">Next <i class="ti-arrow-right"></i></a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
                         <!-- Pagination END -->
                     </div>
                     <!-- Left part END -->
                     <!-- Side bar start -->
-                    <div class="col-lg-4 sticky-top">
-                        <aside class="side-bar sticky-top">
-                            <div class="widget">
-                                <h6 class="widget-title">Search</h6>
-                                <div class="search-bx style-1">
-                                    <form role="search" action="">
-                                        <div class="input-group">
-                                            <input name="q"  class="form-control" placeholder="Enter your keywords..." type="text">
-                                            <span class="input-group-btn">
-                                                <button type="submit" class="fa fa-search text-primary"></button>
-                                            </span> 
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                            <div class="widget recent-posts-entry">
-                                <h6 class="widget-title">Recent Posts</h6>
-                                <div class="widget-post-bx">
-                                    {% for post in recent_posts %}
-                                    <div class="widget-post clearfix">
-                                        <div class="ttr-post-media"> <img src="{{post.thumbnail.url}}" width="200" height="143" alt=""> </div>
-                                        <div class="ttr-post-info">
-                                            <div class="ttr-post-header">
-                                                <h6 class="post-title"><a href="{% url 'blog-detail' post.slug %}">{{post.title}}.</a></h6>
-                                            </div>
-                                            <ul class="media-post">
-                                                <li><a href="#"><i class="fa fa-calendar"></i>{{post.timestamp}}</a></li>
-                                                <li><a href="#"><i class="fa fa-comments-o"></i>{{post.no_comments}} Comment</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                           
-                        
-                        </aside>
-                    </div>
+                  {% include 'blog/blog-sidebar.html' %}
                     <!-- Side bar END -->
                 </div>
             </div>

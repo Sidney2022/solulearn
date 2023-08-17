@@ -12,26 +12,14 @@
 				<div class="row d-flex justify-content-between">
 					<div class="topbar-left">
 						<ul>
-							{% comment %} <li><a href="{%url 'faq'%}"><i class="fa fa-question-circle"></i>Ask a Question</a></li> {% endcomment %}
 							<li><a href="javascript:;"><i class="fa fa-envelope-o"></i>solulearn@gmail.com</a></li>
-						{% comment %} </ul>
-					</div>
-					<div class="topbar-right">
-						<ul> {% endcomment %}
-							<li>
-								<select class="header-lang-bx">
-									<option data-icon="flag flag-uk">English UK</option>
-									<option data-icon="flag flag-us">English US</option>
-								</select>
-							</li>
+						
 						
 							{% if user.is_authenticated %}
 							<li class="upper">{{user}} | <a href="{% url 'logout' %}">Logout</a> </li>
                             {% else %}
 							<li><a href="{% url 'login' %}">Signin</a></li>
                             {% endif%}
-						{% comment %} </ul>
-					</div> {% endcomment %}
 				</div>
 			</div>
 		</div>
@@ -40,7 +28,7 @@
                 <div class="container clearfix">
 					<!-- Header Logo ==== -->
 					<div class="menu-logo">
-						<a href="{% url 'homepage' %}"><img src="{% static 'assets/images/logo.png' %}" alt=""></a>
+						<a href="{% url 'homepage' %}"><img src="{% static 'assets/images/solulearn.png' %}" alt=""></a>
 					</div>
 					<!-- Mobile Nav Button ==== -->
                     <button class="navbar-toggler collapsed menuicon justify-content-end" type="button" data-toggle="collapse" data-target="#menuDropdown" aria-controls="menuDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -125,7 +113,9 @@
 				<div class="container">
 					<div class="d-flex align-items-stretch">
 						<div class="pt-logo mr-auto">
-							<a href="{% url 'homepage' %}"><img src="{% static 'assets/images/logo-white.png' %}" alt=""/></a>
+							<a href="{% url 'homepage' %}"><img src="{% static 'assets/images/logo-icon.png' %}" alt="" width="30" ><span style="font-size:20px; font-wight:bold pt-5" class="text-white pt-5"> Solulearn</span></a>
+							{% comment %} <img alt="" class="ttr-logo-desktop" src="{% static 'assets/images/solulearn.png' %}" width="160" height="27"> {% endcomment %}
+
 						</div>
 						<div class="pt-social-link">
 							<ul class="list-inline m-a0">

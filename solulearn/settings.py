@@ -14,7 +14,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 
-DEBUG = False 
+DEBUG = True 
 ALLOWED_HOSTS = ['*']
 
 
@@ -32,6 +32,8 @@ INSTALLED_APPS = [
     'core',
     'accounts',
     'courses',
+    'cloudinary',
+    'cloudinary_storage',
 
 
     'django_password_validators',
@@ -144,7 +146,7 @@ STATICFILES_STORAGE="whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 MEDIA_URL = 'media/'
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_ROOT = '/home/solulearn/solulearn/media/'
+# MEDIA_ROOT = '/home/solulearn/solulearn/media/'
 # MEDIA_ROOT = 'C:/Users/USER/desktop/proj/solulearn/media/'
 
 # Default primary key field type
@@ -166,4 +168,12 @@ MESSAGE_TAGS = {
     messages.ERROR : 'danger'
 }
 
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv('CLOUD_STORAGE_NAME'),
+    'API_KEY': os.getenv('CLOUD_STORAGE_API_KEY'),
+    'API_SECRET': os.getenv('CLOUD_STORAGE_API_SECRET'),
+    "API_PROXY":"http://proxy.server:3128"
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 

@@ -13,21 +13,34 @@ from django.views import View
 from .forms import CourseForm
 import json
 import os
+from django.core.paginator import Paginator
 
 
 def courses(request):
-    category = request.GET.get('category')
     title = request.GET.get('q')
-    if category:
-        category = CourseCategory.objects.filter(name=category).first()
-        courses = Course.objects.filter(category=category, status="published", is_created=True)
-    elif title:
-        # courses = Course.objects.filter(Q( title__icontains=search_str) | Q( category__name__icontains=search_str))
+    if title:
         courses = Course.objects.filter(Q(title__icontains=title, status="published", is_created=True) | Q(category__name__icontains=title, status="published", is_created=True) )
     else:
         courses = Course.objects.filter(status="published", is_created=True)
     recent_courses = Course.objects.filter( status="published", is_created=True).order_by('-date')[:5]
-    context = {'courses':courses, "recent_courses":recent_courses}
+    page_number = request.GET.get('page')
+    paginator = Paginator(courses, 1)
+    page = paginator.get_page( page_number)
+   
+    context = {'courses':courses, "recent_courses":recent_courses, 'page':page,}
+    return render(request, "courses/courses.html", context)
+
+
+def sort_course_by_category(request, pk):
+    category = get_object_or_404( CourseCategory, name=pk)
+    courses = Course.objects.filter(category=category, status="published", is_created=True)
+   
+    recent_courses = Course.objects.filter( status="published", is_created=True).order_by('-date')[:5]
+    page_number = request.GET.get('page')
+    paginator = Paginator(courses, 1)
+    page = paginator.get_page( page_number)
+   
+    context = {'courses':courses, "recent_courses":recent_courses, 'page':page,}
     return render(request, "courses/courses.html", context)
 
 
@@ -196,3 +209,19 @@ def markLessonComplete(request, slug):
     new_completed_lesson.save()
     return JsonResponse({"detail":"lesson marked completed by user", "status":200})
 
+
+
+def search(request):
+    search_str = request.GET['q']    
+    courses = Course.objects.filter(Q( title__icontains=search_str, status="published", is_created=True) 
+                                    | Q(category__name__icontains=search_str, status="published", is_created=True))
+    page_number = request.GET.get('page')
+    paginator = Paginator(courses, 20)
+    page = paginator.get_page( page_number)
+
+    context = {
+            "page":page,
+            "search_str":search_str,
+
+    }
+    return render(request, 'courses/search.html', context)
