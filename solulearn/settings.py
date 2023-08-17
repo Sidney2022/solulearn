@@ -168,15 +168,13 @@ MESSAGE_TAGS = {
     messages.ERROR : 'danger'
 }
 
-# cloudinary.config(
-#     cloud_name = os.getenv('CLOUD_STORAGE_NAME'),
-#     api_key = os.getenv('CLOUD_STORAGE_API_KEY'),
-#     api_secret = os.getenv('CLOUD_STORAGE_API_SECRET'),
-#     api_proxy ="http://proxy.server:3128"
-# )
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv('CLOUD_STORAGE_NAME'),
+    'API_KEY': os.getenv('CLOUD_STORAGE_API_KEY'),
+    'API_SECRET': os.getenv('CLOUD_STORAGE_API_SECRET'),
+    "API_PROXY":"http://proxy.server:3128"
+}
 
-# import cloudinary.uploader
-# import cloudinary.api
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
