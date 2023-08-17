@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 from django.contrib import messages
 load_dotenv()
-
+import cloudinary
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -168,12 +168,16 @@ MESSAGE_TAGS = {
     messages.ERROR : 'danger'
 }
 
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.getenv('CLOUD_STORAGE_NAME'),
-    'API_KEY': os.getenv('CLOUD_STORAGE_API_KEY'),
-    'API_SECRET': os.getenv('CLOUD_STORAGE_API_SECRET'),
-    "API_PROXY":"http://proxy.server:3128"
-}
+# cloudinary.config(
+#     cloud_name = os.getenv('CLOUD_STORAGE_NAME'),
+#     api_key = os.getenv('CLOUD_STORAGE_API_KEY'),
+#     api_secret = os.getenv('CLOUD_STORAGE_API_SECRET'),
+#     api_proxy ="http://proxy.server:3128"
+# )
+
+# import cloudinary.uploader
+# import cloudinary.api
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
+CLOUDINARY_URL=os.getenv("CLOUDINARY_URL")
