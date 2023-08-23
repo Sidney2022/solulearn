@@ -10,6 +10,7 @@ django-cloudinary-storage
 django-jazzmin
 django-password-validators
 filemagic
+gunicorn
 idna
 imageio
 imageio-ffmpeg
