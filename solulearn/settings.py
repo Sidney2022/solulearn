@@ -4,7 +4,6 @@ import os
 from dotenv import load_dotenv
 from django.contrib import messages
 load_dotenv()
-import cloudinary
 import dj_database_url
 from decouple import config
 
@@ -88,7 +87,7 @@ AUTHENTICATION_BACKENDS = [
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-database_config = dj_database_url.parse(config("POSTGRES_URL"))
+database_config = dj_database_url.parse(os.getenv("POSTGRES_URL"))
 DATABASES = {
     'default': database_config
 }
@@ -147,7 +146,7 @@ STATICFILES_STORAGE="whitenoise.storage.CompressedManifestStaticFilesStorage"
 MEDIA_URL = 'media/'
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # MEDIA_ROOT = '/home/solulearn/solulearn/media/'
-MEDIA_ROOT = 'C:/Users/USER/desktop/proj/solulearn/media/'
+# MEDIA_ROOT = 'C:/Users/USER/desktop/proj/solulearn/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -172,7 +171,6 @@ CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.getenv('CLOUD_STORAGE_NAME'),
     'API_KEY': os.getenv('CLOUD_STORAGE_API_KEY'),
     'API_SECRET': os.getenv('CLOUD_STORAGE_API_SECRET'),
-    "API_PROXY":"http://proxy.server:3128"
 }
 
 
