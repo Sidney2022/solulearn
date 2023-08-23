@@ -8,7 +8,7 @@
 
 <div class="heading-bx left">
 	<h2 class="title-head">Sign Up <span>Now</span></h2>
-	<p>Login Your Account <a href="{% url 'login' %}">Click here</a></p>
+	<p>I have an account <a href="{% url 'login' %}">Login </a></p>
 </div>	
 <form class="contact-bx" action={% url 'signup' %} method='post'>
 	{% csrf_token %}
@@ -45,6 +45,15 @@
 				</div>
 			</div>
 		</div> 
+		<div class="col-lg-12">
+            <div class="form-group form-forget">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="customControlAutosizing">
+                    <label class="custom-control-label" for="customControlAutosizing"><a href="" class="ml-auto">I agree to terms and conditions</a></label>
+                </div>
+                
+            </div>
+        </div>
 		<div class="col-lg-12 m-b30">
 			<button name="submit" type="submit" value="Submit" class="btn button-md">Sign Up</button>
 		</div>

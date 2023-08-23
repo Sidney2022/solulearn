@@ -96,49 +96,56 @@ class SignOut(View):
 
 
 def reset_password(request):
+    if request.user.is_authenticated:
+        return redirect('/')
+    else:
     # this block should render a page with form to enter email. onsubmit,  a token should be generated and sent to users mail
-    if request.method == "POST":
-        email = request.POST['email'].lower().strip()
-        user_profile = get_object_or_404(Profile, email=email)
-        num = random.randint(0, 999999)
-        # send_email
-        subject = f'Email Confirmation'
-        context = {
-            'recipient_name': user_profile.username,
-            "token":token,
+        if request.method == "POST":
+            email = request.POST['email'].lower().strip()
+            user_profile = get_object_or_404(Profile, email=email)
+            num = random.randint(0, 999999)
+            # send_email
+            subject = f'Email Confirmation'
+            context = {
+                'recipient_name': user_profile.username,
+                "token":num,
 
-            }
-        try:
-            html_message = render_to_string('email/payment.html', context)
-            plain_message = strip_tags(html_message)
-        
-            send_mail(
-                subject, plain_message, settings.DEFAULT_FROM_EMAIL, [email], html_message=html_message
-                )
-            token = PwToken.objects.create(token=num, user=user_profile) 
-            token.save()
-            return redirect('verify-token')
-        except Exception as e :
-            messages.info(request, 'email could not be sent. please check your network connection and try again. if problem persists, please contact admin') 
-            return redirect('reset-pw')
+                }
+            try:
+                # html_message = render_to_string('email/reset-pw.html', context)
+                # plain_message = strip_tags(html_message)
+            
+                # send_mail(
+                #     subject, plain_message, settings.DEFAULT_FROM_EMAIL, [email], html_message=html_message
+                #     )
+                token = PwToken.objects.create(token=num, user=user_profile) 
+                token.save()
+                return redirect('verify-token')
+            except Exception as e :
+                print(e)
+                messages.info(request, 'email could not be sent. please check your network connection and try again. if problem persists, please contact admin') 
+                return redirect('reset-password')
 
-    return render(request, 'authentication/password_reset.html')
+        return render(request, 'authentication/password_reset.html')
 
 
 def reset_password_verify_token(request):
     # this block should render a page with form to enter email, and token. on submit,  a token should be validated. if valid, redirect to change password view
-    if request.method == "POST":
-        email = request.POST['email'].lower().strip()
-        token = request.POST['token'].strip()
-        user_profile = get_object_or_404(Profile, email=email)
-        # send_email
-        token = PwToken.objects.filter( token=token, user=user_profile).first()
-        if not token:
-            messages.info(request, 'invalid token') 
+    if request.user.is_authenticated:
+        return redirect('/')
+    else:
+        if request.method == "POST":
+            email = request.POST['email'].lower().strip()
+            token = request.POST['token'].strip()
+            user_profile = get_object_or_404(Profile, email=email)
+            # send_email
+            token = PwToken.objects.filter( token=token, user=user_profile).first()
+            if not token:
+                messages.error(request, 'invalid token') 
+                return redirect('verify-token')
             return redirect('set-pw')
-        return redirect('set-pw')
-        
-    return render(request, 'authentication/password_reset.html')
+            
+        return render(request, 'authentication/verify-token.html')
 
 
 

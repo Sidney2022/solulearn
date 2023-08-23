@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from datetime import datetime
+from datetime import datetime, timedelta
+from django.utils import timezone
 import random
 
 
@@ -65,3 +66,11 @@ class PwToken(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     token = models.PositiveIntegerField()
     timestamp = models.DateTimeField(auto_now_add=True)
+
+    def time_sent(self):
+        time_active =   timezone.now() - self.timestamp
+        if time_active > timedelta(minutes=30):
+            return True
+        else:
+            return False
+        return time_active

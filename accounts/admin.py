@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import Profile, Notification
+from .models import Profile, Notification, PwToken
 
 
 class ProfileAdmin(UserAdmin):
@@ -15,9 +15,13 @@ class ProfileAdmin(UserAdmin):
 class NotificationAdmin(admin.ModelAdmin):
     list_display = ['user', 'message', 'icon', 'timestamp']
 
+class PwTokenAdmin(admin.ModelAdmin):
+    list_display = ['user', 'token', 'timestamp', 'time_sent']
+
 
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Notification, NotificationAdmin)
+admin.site.register(PwToken, PwTokenAdmin)
 
 
 

@@ -9,4 +9,5 @@ urlpatterns = [
     path('auth/signin', SignIn.as_view(), name='login'),
     path('auth/logout', SignOut.as_view(), name='logout'), 
     path('auth/reset-password', views.reset_password, name='reset-password'),   
+    path('auth/verify-token', views.reset_password_verify_token, name='verify-token'),   
 ]
