@@ -2,7 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from datetime import datetime, timedelta
 from django.utils import timezone
-import random
+import random, uuid
 
 
 class Profile(AbstractUser):
@@ -64,13 +64,12 @@ class Notification(models.Model):
     
 class PwToken(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    token = models.PositiveIntegerField()
+    token = models.UUIDField(default=uuid.uuid4, editable=False)
     timestamp = models.DateTimeField(auto_now_add=True)
 
-    def time_sent(self):
+    def token_expired(self):
         time_active =   timezone.now() - self.timestamp
-        if time_active > timedelta(minutes=30):
-            return True
+        if time_active > timedelta(minutes=(60 * 24)):
+            return True # expired
         else:
-            return False
-        return time_active
+            return False # not expired

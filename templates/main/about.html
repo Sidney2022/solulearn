@@ -8,38 +8,12 @@
 	<div class="section-area section-sp1">
 		<div class="container">
 			 <div class="row">
-				 <div class="col-lg-6 m-b30">
+				 <div class="col-lg-12 m-b30">
 					<h2 class="title-head ">Learn a new skill online<br/> <span class="text-primary"> on your time</span></h2>
 					<p>Learn a new skill online, on your time. With over 57,000 online courses, Solulearn offers a flexible learning experience that fits seamlessly into your busy schedule. Access high-quality content from industry experts, engage with a vibrant community of learners, and explore a diverse range of subjects. Start your learning journey today and unlock your full potential.</p>
 					<a href="#" class="btn button-md">Join Now</a>
 				 </div>
-				 <div class="col-lg-6">
-					 <div class="row">
-						<div class="col-lg-6 col-md-6 col-sm-6 m-b30">
-							<div class="feature-container">
-								<div class="feature-md text-white m-b20">
-									<a href="#" class="icon-cell"><img src="{% static 'assets/images/icon/icon1.png' %}" alt=""/></a> 
-								</div>
-								<div class="icon-content">
-									<h5 class="ttr-tilte">Our Philosophy</h5>
-									<p>Our philosophy is simple: to empower learners to thrive, and we believe in the transformative power of education.</p>
-								</div>
-							</div>
-						</div>
-						
-						<div class="col-lg-6 col-md-6 col-sm-6 m-b30">
-							<div class="feature-container">
-								<div class="feature-md text-white m-b20">
-									<a href="#" class="icon-cell"><img src="{% static 'assets/images/icon/icon4.png' %}" alt=""/></a> 
-								</div>
-								<div class="icon-content">
-									<h5 class="ttr-tilte">Our Principle</h5>
-									<p>Our philosophy is simple: to empower learners to thrive, and we believe in the transformative power of education.</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+				
 			</div>
 		</div>
 	</div>
@@ -108,7 +82,7 @@
 					<div class="col-lg-4 col-md-6 col-sm-6 col-6 m-b30">
 						<div class="counter-style-1">
 							<div class="text-black">
-								<span class="counter">3000</span><span>+</span>
+								<span class="counter">{{total_users}}</span><span>+</span>
 							</div>
 							<span class="counter-text">users</span>
 						</div>
@@ -116,7 +90,7 @@
 					<div class="col-lg-4 col-md-6 col-sm-6 col-6 m-b30">
 						<div class="counter-style-1">
 							<div class="text-primary">
-								<span class="counter">2500</span><span>+</span>
+								<span class="counter">{{total_courses}}</span><span>+</span>
 							</div>
 							<span class="counter-text">courses</span>
 						</div>
@@ -124,7 +98,7 @@
 					<div class="col-lg-4 col-md-6 col-sm-6 col-6 m-b30">
 						<div class="counter-style-1">
 							<div class="text-black">
-								<span class="counter">1500</span><span>+</span>
+								<span class="counter">{{total_enrolled_courses}}</span><span>+</span>
 							</div>
 							<span class="counter-text">enrolled courses</span>
 						</div>

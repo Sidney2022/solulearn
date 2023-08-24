@@ -2,6 +2,7 @@
 from django.urls import path
 from .views import SignIn, SignOut, SignUp
 from . import views
+from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
     # authentication
@@ -9,5 +10,5 @@ urlpatterns = [
     path('auth/signin', SignIn.as_view(), name='login'),
     path('auth/logout', SignOut.as_view(), name='logout'), 
     path('auth/reset-password', views.reset_password, name='reset-password'),   
-    path('auth/verify-token', views.reset_password_verify_token, name='verify-token'),   
+    path('auth/set-password', views.set_new_password, name='set-password'),   
 ]

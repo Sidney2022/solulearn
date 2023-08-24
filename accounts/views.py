@@ -13,6 +13,8 @@ from django.core.mail import EmailMessage
 from django.utils.html import strip_tags
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
+from django.contrib.sites.shortcuts import get_current_site
+from django.http import Http404
 
 
 class SignIn(View):
@@ -99,57 +101,69 @@ def reset_password(request):
     if request.user.is_authenticated:
         return redirect('/')
     else:
-    # this block should render a page with form to enter email. onsubmit,  a token should be generated and sent to users mail
         if request.method == "POST":
             email = request.POST['email'].lower().strip()
             user_profile = get_object_or_404(Profile, email=email)
-            num = random.randint(0, 999999)
-            # send_email
-            subject = f'Email Confirmation'
+            print(user_profile)
+            token = PwToken.objects.create( user=user_profile) 
+            token.save()
+            url = f"{get_current_site(request)}/accounts/auth/set-password?token={token.token}"
+            subject = f'Password Reset'
             context = {
-                'recipient_name': user_profile.username,
-                "token":num,
-
+                'token': token.token, 
+                "user":user_profile.username
                 }
             try:
-                # html_message = render_to_string('email/reset-pw.html', context)
-                # plain_message = strip_tags(html_message)
+                html_message = render_to_string('email/reset_password.html', context)
+                plain_message = strip_tags(html_message)
             
-                # send_mail(
-                #     subject, plain_message, settings.DEFAULT_FROM_EMAIL, [email], html_message=html_message
-                #     )
-                token = PwToken.objects.create(token=num, user=user_profile) 
-                token.save()
-                return redirect('verify-token')
+                send_mail(
+                    subject, plain_message, f"Solulearn  <{settings.DEFAULT_FROM_EMAIL}>", [email], html_message=html_message
+                    )
+                messages.info(request, 'A link has been sent to your email. Click on the link to set a new password for your account. If you do not receive a mail after 10 mins, resend email') 
+                print(url)
             except Exception as e :
                 print(e)
                 messages.info(request, 'email could not be sent. please check your network connection and try again. if problem persists, please contact admin') 
-                return redirect('reset-password')
+            return redirect('reset-password')
 
         return render(request, 'authentication/password_reset.html')
 
 
-def reset_password_verify_token(request):
-    # this block should render a page with form to enter email, and token. on submit,  a token should be validated. if valid, redirect to change password view
+def set_new_password(request):
     if request.user.is_authenticated:
         return redirect('/')
-    else:
-        if request.method == "POST":
-            email = request.POST['email'].lower().strip()
-            token = request.POST['token'].strip()
-            user_profile = get_object_or_404(Profile, email=email)
-            # send_email
-            token = PwToken.objects.filter( token=token, user=user_profile).first()
-            if not token:
-                messages.error(request, 'invalid token') 
-                return redirect('verify-token')
-            return redirect('set-pw')
-            
-        return render(request, 'authentication/verify-token.html')
-
-
-
-
+    
+    try:
+        token = request.GET['token']
+        token = PwToken.objects.filter(token=token).first()
+        if not token or token.token_expired():
+            messages.error(request, "token is expired. enter your email below to have a new token sent to your email")
+            return redirect('reset-password')
+    except Exception as e:
+        messages.error(request, "Invalid token supplied")
+        return redirect('reset-password')
+    
+    if request.method == "POST":
+        token = request.POST['token'].strip()
+        password = request.POST['password']
+        print(token.token_expired())
+        if not token or token.token_expired():
+            messages.error(request, "token does not exist or is expired. enter your email below to have a new token sent to your email")
+            return redirect('reset-password')
+        user = get_object_or_404(Profile, username=token.user.username)
+        try:
+            validate_password(password)
+            user.set_password(password)
+            user.save()
+            messages.error(request, "password changed successfully. please login to your account")
+            return redirect("login")
+        except Exception as e:
+            messages.error(request, str(e))
+            url = request.build_absolute_uri(f'/accounts/auth/set-password?token={token.token}')
+            return redirect(url)
+        
+    return render(request, 'authentication/set-password.html', {"token":token})
 
 
 

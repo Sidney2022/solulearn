@@ -3,7 +3,7 @@ certifi
 charset-normalizer
 cloudinary
 colorama
-decorator
+decorator==4.0.2
 dj-database-url
 Django
 django-cloudinary-storage

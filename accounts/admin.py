@@ -16,7 +16,7 @@ class NotificationAdmin(admin.ModelAdmin):
     list_display = ['user', 'message', 'icon', 'timestamp']
 
 class PwTokenAdmin(admin.ModelAdmin):
-    list_display = ['user', 'token', 'timestamp', 'time_sent']
+    list_display = ['user', 'token', 'timestamp', 'token_expired']
 
 
 admin.site.register(Profile, ProfileAdmin)
