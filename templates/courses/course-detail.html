@@ -123,11 +123,11 @@
 										{% for lesson in lessons %}
 										<li>
 											<div class="curriculum-list-box">
-												<span>Lesson {{lesson.id}}.</span> {{lesson.title}}
+												<span>Lesson {{lesson.lesson_no}} .</span> {{lesson.title}}
 											</div>
-											{% if debug_mode == True %}
-											<span>{{lesson.file_length}}</span>
-											{% endif %}
+											{% comment %} {% if debug_mode == True %} {% endcomment %}
+											<span>{{lesson.file_length}} mins</span>
+											{% comment %} {% endif %} {% endcomment %}
 										</li>
 										{% endfor %}
 									</ul>
@@ -144,7 +144,7 @@
 							</div>
 							<div class="instructor-info">
 								<h6 class="upper"> {{course.instructor }} </h6>
-								<span>Professor</span>
+								<span>{{course.instructor.bio}}</span>
 								
 								<p class="m-b0">{{course.instructor.bio}}</p>
 							</div>

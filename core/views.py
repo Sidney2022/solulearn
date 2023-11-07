@@ -70,9 +70,7 @@ def TutorCourses(request, pk):
 
 def search(request):
     search_str = request.GET['q']
-    print(request.path)
     courses = Course.objects.filter(Q( title__icontains=search_str) | Q( category__name__icontains=search_str))
-    print(search_str, courses)
 #     page_number = request.GET.get('page')
 #     paginator = Paginator(courses, 20)
 #     page = paginator.get_page( page_number)

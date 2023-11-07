@@ -10,7 +10,6 @@ from django.conf import settings
 
 all_posts = Post.objects.all().order_by('-timestamp')
 def blog(request):
-    print(f'current site is {get_current_site(request)}')
     page_number = request.GET.get('page')
     paginator = Paginator(all_posts, 10)
     page = paginator.get_page( page_number)

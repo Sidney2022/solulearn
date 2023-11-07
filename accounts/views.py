@@ -22,9 +22,7 @@ class SignIn(View):
         username = request.POST['username'].lower().strip()
         password = request.POST['password']
         next_page = request.POST['next']
-        print(username, password)
         user = auth.authenticate(username=username, password=password)
-        print(user)
         if user:
             if user and user.is_active:
                 auth.login(request, user)
@@ -104,7 +102,6 @@ def reset_password(request):
         if request.method == "POST":
             email = request.POST['email'].lower().strip()
             user_profile = get_object_or_404(Profile, email=email)
-            print(user_profile)
             token = PwToken.objects.create( user=user_profile) 
             token.save()
             url = f"{get_current_site(request)}/accounts/auth/set-password?token={token.token}"
@@ -121,9 +118,7 @@ def reset_password(request):
                     subject, plain_message, f"Solulearn  <{settings.DEFAULT_FROM_EMAIL}>", [email], html_message=html_message
                     )
                 messages.info(request, 'A link has been sent to your email. Click on the link to set a new password for your account. If you do not receive a mail after 10 mins, resend email') 
-                print(url)
             except Exception as e :
-                print(e)
                 messages.info(request, 'email could not be sent. please check your network connection and try again. if problem persists, please contact admin') 
             return redirect('reset-password')
 
@@ -147,7 +142,6 @@ def set_new_password(request):
     if request.method == "POST":
         token = request.POST['token'].strip()
         password = request.POST['password']
-        print(token.token_expired())
         if not token or token.token_expired():
             messages.error(request, "token does not exist or is expired. enter your email below to have a new token sent to your email")
             return redirect('reset-password')

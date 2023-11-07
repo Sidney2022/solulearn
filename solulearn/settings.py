@@ -5,7 +5,6 @@ from dotenv import load_dotenv
 from django.contrib import messages
 load_dotenv()
 import dj_database_url
-from decouple import config
 import logging
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -18,10 +17,11 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 
 DEBUG = False 
 ALLOWED_HOSTS = ['*']
-
+ 
 # Application definition
 
 INSTALLED_APPS = [
+    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django_password_validators',
 
     'whitenoise.runserver_nostatic', 
+    
 ]
 
 MIDDLEWARE = [
@@ -115,11 +116,11 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django_password_validators.password_character_requirements.password_validation.PasswordCharacterValidator',
         'OPTIONS': {
-             'min_length_digit': 3,
+             'min_length_digit': 2,
              'min_length_alpha': 2,
-             'min_length_special': 1,
-             'min_length_lower': 4,
-             'min_length_upper': 1,
+             'min_length_special': 0,
+             'min_length_lower': 3,
+             'min_length_upper': 0,
              'special_characters': "~!@#$%^&*()_+{}\":;'[]"
          }
     },
@@ -131,7 +132,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/London'
 
 USE_I18N = True
 
@@ -147,7 +148,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATICFILES_STORAGE="whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
-MEDIA_URL = 'media/'
+# MEDIA_URL = 'media/'
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
@@ -175,8 +176,34 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': os.getenv('CLOUD_STORAGE_API_SECRET'),
 }
 
-
+# if not DEBUG:
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+
+
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#     'console': {
+#         'level': 'ERROR',
+#         'class': 'logging.StreamHandler',  # Output to console
+#     },
+#     'file': {
+#         'level': 'DEBUG',
+#         'class': 'logging.FileHandler',
+#         'filename': os.path.join(BASE_DIR, 'error.log'),
+#     },
+# },
+# 'loggers': {
+#     'django': {
+#         'handlers': ['console', 'file'],  # Output to both console and file
+#         'level': 'DEBUG',
+#         'propagate': True,
+#     },
+# },
+
+# }
 
 
 

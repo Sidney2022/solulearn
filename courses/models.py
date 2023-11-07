@@ -4,8 +4,8 @@ from accounts.models import Profile
 from solulearn import settings
 from datetime import datetime
 from django.db import models
-import os, subprocess, re
-# import magic
+from cloudinary_storage.storage import RawMediaCloudinaryStorage
+
 
 
 class CourseCategory(models.Model):
@@ -79,14 +79,10 @@ class Course(models.Model):
         duration = 0
         for lesson in Lesson.objects.filter(course=self.id):
             duration += lesson.file_length()
-        if duration > 3600:
-            duration /= 3600
-            time = f" {round(duration)} hr(s)"
-        elif duration > 60:
-            duration /= 60
-            time = f"{round(duration)} min(s)"
+        if duration > 60:
+            time = f"{round(duration/60, 2)} hrs(s)"
         else:
-            time = f"{round(duration)} sec(s)" 
+            time = f"{round(duration, 2)} mins(s)" 
         return time
     
     def average_rating(self):
@@ -110,7 +106,7 @@ class Lesson(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     content = models.TextField()
-    file = models.FileField(upload_to="lessons")
+    file = models.FileField(upload_to="lessons", storage=RawMediaCloudinaryStorage())
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     slug = models.SlugField(blank=True, null=True)
     is_complete = models.BooleanField(default=False)
@@ -140,7 +136,7 @@ class Lesson(models.Model):
         return self.title
         
     def file_length(self):
-        file_path = self.file.path
+        file_path= f"https://res.cloudinary.com/dnmhcjfwi/raw/upload/v1/{self.file}"
         clip = VideoFileClip(file_path)
         duration = clip.duration
         clip.close()
@@ -152,14 +148,10 @@ class Lesson(models.Model):
         #     time = f"{round(duration)} minutes"
         # else:
         #     time = f"{round(duration)} seconds" 
-        return round(duration) #time
+        return round(duration/60, 1) #time
 
 
-        # Example usage
-        file_path = "path/to/your/video_or_audio_file.mp4"
-        length = get_file_length(file_path)
-        print("File length:", length, "seconds")
-
+     
     # def check_file_type(self):
     #     detector = magic.Magic(mime=True)
     #     file_type = detector.from_file(self.file.path)

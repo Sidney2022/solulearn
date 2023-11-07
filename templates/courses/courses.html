@@ -62,6 +62,7 @@
 								No courses 
 								{% endfor %}
 							</div>
+							{% if page %}
 							<nav class="pagination-bx rounded-sm gray clearfix ">
 								<ul class="pagination">
 									{% if page.has_previous %}
@@ -92,6 +93,7 @@
 									{% endif %}
 								</ul>
 							</nav>
+							{% endif %}
 						</div>
 					</div>
 				</div>

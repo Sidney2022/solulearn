@@ -24,7 +24,7 @@ def courses(request):
         courses = Course.objects.filter(status="published", is_created=True)
     recent_courses = Course.objects.filter( status="published", is_created=True).order_by('-date')[:5]
     page_number = request.GET.get('page')
-    paginator = Paginator(courses, 1)
+    paginator = Paginator(courses, 10)
     page = paginator.get_page( page_number)
    
     context = {'courses':courses, "recent_courses":recent_courses, 'page':page,}
@@ -37,7 +37,7 @@ def sort_course_by_category(request, pk):
    
     recent_courses = Course.objects.filter( status="published", is_created=True).order_by('-date')[:5]
     page_number = request.GET.get('page')
-    paginator = Paginator(courses, 1)
+    paginator = Paginator(courses, 10)
     page = paginator.get_page( page_number)
    
     context = {'courses':courses, "recent_courses":recent_courses, 'page':page,}
@@ -95,7 +95,6 @@ class CreateLessons(View):
         file=request.FILES["file"]
         file_path= default_storage.save(f"lessons/{file.name}", file) 
         course = Course.objects.filter(slug=course, instructor=request.user).first()
-        print(course)
         new_lesson = Lesson.objects.create(title=title, file=file_path,course=course, user=request.user)
         new_lesson.save()
         return JsonResponse({"data":"lesson created", "status":201, "form_data":request.POST })
@@ -117,11 +116,13 @@ class CourseView(View):
             "lessons":lessons,
             "is_enrolled":False
         }
+        # print(course.courseDuration())
         if request.user.is_authenticated:
             is_enrolled = EnrolledCourse.objects.filter(student=request.user, course=course)
             if is_enrolled: is_enrolled = True
             else: is_enrolled = False
             context["is_enrolled"] = is_enrolled
+            
         return render(request, 'courses/course-detail.html', context)
 
 
@@ -160,7 +161,6 @@ class GetLesson(View):
             return redirect(reverse('course-detail', args=[course.slug]))
         lessons = Lesson.objects.filter(course=course)
         lesson_slug = request.GET.get("q")
-        print(lesson_slug)
         if lesson_slug:
             lesson  = get_object_or_404(Lesson, slug=lesson_slug, course=course)
         else:
@@ -175,7 +175,6 @@ class GetLesson(View):
             next_lesson = "completed"
         else:
             next_lesson = next_lesson.slug
-        print(next_lesson)
             # pass in dynamic url to course completion page
         completed_lessons = CompletedLesson.objects.filter(course=course, student=request.user)
         context = {
@@ -222,6 +221,7 @@ def search(request):
     context = {
             "page":page,
             "search_str":search_str,
+            "recent_courses":Course.objects.filter( status="published", is_created=True).order_by('-date')[:5]
 
     }
     return render(request, 'courses/search.html', context)
