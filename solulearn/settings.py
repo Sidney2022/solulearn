@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 from django.contrib import messages
 load_dotenv()
-import dj_database_url
+# import dj_database_url
 import logging
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -86,16 +86,16 @@ AUTHENTICATION_BACKENDS = [
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-database_config = dj_database_url.parse(os.getenv("POSTGRES_URL"))
 DATABASES = {
-    'default': database_config
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
+# database_config = dj_database_url.parse(os.getenv("POSTGRES_URL"))
+# DATABASES = {
+#     'default': database_config
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -181,29 +181,29 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 
 
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': False,
-#     'handlers': {
-#     'console': {
-#         'level': 'ERROR',
-#         'class': 'logging.StreamHandler',  # Output to console
-#     },
-#     'file': {
-#         'level': 'DEBUG',
-#         'class': 'logging.FileHandler',
-#         'filename': os.path.join(BASE_DIR, 'error.log'),
-#     },
-# },
-# 'loggers': {
-#     'django': {
-#         'handlers': ['console', 'file'],  # Output to both console and file
-#         'level': 'DEBUG',
-#         'propagate': True,
-#     },
-# },
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+    'console': {
+        'level': 'ERROR',
+        'class': 'logging.StreamHandler',  # Output to console
+    },
+    'file': {
+        'level': 'DEBUG',
+        'class': 'logging.FileHandler',
+        'filename': os.path.join(BASE_DIR, 'error.log'),
+    },
+},
+'loggers': {
+    'django': {
+        'handlers': ['console', 'file'],  # Output to both console and file
+        'level': 'DEBUG',
+        'propagate': True,
+    },
+},
 
-# }
+}
 
 
 
