@@ -107,7 +107,6 @@ class Lesson(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField()
     file = models.FileField(upload_to="lessons", storage=RawMediaCloudinaryStorage())
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     slug = models.SlugField(blank=True, null=True)
     is_complete = models.BooleanField(default=False)
     lesson_no = models.PositiveIntegerField(default=0)

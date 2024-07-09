@@ -1,9 +1,12 @@
 
 from pathlib import Path
 import os
-from dotenv import load_dotenv
 from django.contrib import messages
-load_dotenv()
+import environ
+
+# Initialize environment variables
+env = environ.Env()
+environ.Env.read_env()
 # import dj_database_url
 import logging
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -13,9 +16,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = env('SECRET_KEY')
 
-DEBUG = False 
+DEBUG = True 
 ALLOWED_HOSTS = ['*']
  
 # Application definition
@@ -30,11 +33,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'blog',
+    'apis',
     'core',
     'accounts',
     'courses',
     'cloudinary',
     'cloudinary_storage',
+
+    'rest_framework',
+    'rest_framework.authtoken',
 
 
     'django_password_validators',
@@ -78,11 +85,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'solulearn.wsgi.application'
 
-AUTHENTICATION_BACKENDS = [   
-        # 'accounts.backends.EmailBackend',
-        'django.contrib.auth.backends.ModelBackend',  
-        
-]
+
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -148,20 +151,20 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATICFILES_STORAGE="whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
-# MEDIA_URL = 'media/'
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = 'media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-EMAIL_HOST = os.getenv('EMAIL_HOST')
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-EMAIL_USE_TLS = bool(os.getenv("EMAIL_USE_TLS"))
-EMAIL_PORT = os.getenv('EMAIL_PORT')
-DEFAULT_FROM_EMAIL = os.getenv('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_PORT = env.int('PORT')
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS')
+DEFAULT_FROM_EMAIL= env('EMAIL_HOST_USER')
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 AUTH_USER_MODEL = 'accounts.Profile'
@@ -171,14 +174,27 @@ MESSAGE_TAGS = {
 }
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.getenv('CLOUD_STORAGE_NAME'),
-    'API_KEY': os.getenv('CLOUD_STORAGE_API_KEY'),
-    'API_SECRET': os.getenv('CLOUD_STORAGE_API_SECRET'),
+    'CLOUD_NAME':env('CLOUD_STORAGE_NAME'),
+    'API_KEY':env('CLOUD_STORAGE_API_KEY'),
+    'API_SECRET':env('CLOUD_STORAGE_API_SECRET'),
 }
 
 # if not DEBUG:
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
+
+AUTHENTICATION_BACKENDS = [
+        # 'accounts.backends.EmailBackend',
+        'rest_framework.authentication.TokenAuthentication',
+        'django.contrib.auth.backends.ModelBackend',
+
+        ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        ]
+}
 
 
 LOGGING = {
@@ -204,6 +220,8 @@ LOGGING = {
 },
 
 }
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
 

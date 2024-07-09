@@ -2,6 +2,8 @@
 {% load static %}
 
 {% block content %}
+
+{% include "messages.html" %}
 <div class="section-area section-sp1 ovpr-dark bg-fix online-cours" style="background-image:url(/static/assets/images/background/bg1.jpg);">
 	<div class="container">
 		<div class="row">
@@ -23,17 +25,17 @@
 				<div class="col-md-6 col-sm-6">
 					<div class="cours-search-bx m-b30">
 						<div class="icon-box">
-							<h3><i class="ti-user"></i><span class="counter">{{total_students}}</span></h3>
+							<h3><i class="ti-user"></i><span class="counter">500</span></h3>
 						</div> 
-						<span class="cours-search-text"> {{total_students}} students</span>
+						<span class="cours-search-text"> 500+ students</span>
 					</div>
 				</div>
 				<div class="col-md-6 col-sm-6">
 					<div class="cours-search-bx m-b30">
 						<div class="icon-box">
-							<h3><i class="ti-book"></i><span class="counter">{{total_courses}}</span></h3>
+							<h3><i class="ti-book"></i><span class="counter">200 </span></h3>
 						</div>
-						<span class="cours-search-text">{{total_courses}} Courses.</span>
+						<span class="cours-search-text">200+ Courses.</span>
 					</div>
 				</div>
 				
@@ -145,7 +147,7 @@
 				<div class="col-lg-4 col-md-6 col-sm-6 col-6 m-b30">
 					<div class="counter-style-1">
 						<div class="text-white">
-							<span class="counter">{{total_users}}</span><span>+</span>
+							<span class="counter">500</span><span>+</span>
 						</div>
 						<span class="counter-text">users</span>
 					</div>
@@ -153,7 +155,7 @@
 				<div class="col-lg-4 col-md-6 col-sm-6 col-6 m-b30">
 					<div class="counter-style-1">
 						<div class="text-white">
-							<span class="counter">{{total_courses}}</span><span>+</span>
+							<span class="counter">200</span><span>+</span>
 						</div>
 						<span class="counter-text">courses</span>
 					</div>
@@ -161,7 +163,7 @@
 				<div class="col-lg-4 col-md-6 col-sm-6 col-6 m-b30">
 					<div class="counter-style-1">
 						<div class="text-white">
-							<span class="counter">{{total_enrolled_courses}}</span><span>+</span>
+							<span class="counter">200</span><span>+</span>
 						</div>
 						<span class="counter-text">enrolled courses</span>
 					</div>

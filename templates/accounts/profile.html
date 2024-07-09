@@ -1,0 +1,180 @@
+{% extends 'accounts/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<style>
+          
+    .copy-text {
+        position: relative;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        display: flex;
+    }
+    .copy-text input.text {
+        padding: 10px;
+        font-size: 15px;
+        color: #555;
+        border: none;
+        outline: none;
+    }
+    .copy-text button {
+        padding: 5px;
+        background: #5784f5;
+        color: #fff;
+        font-size: 15px;
+        border: none;
+        outline: none;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+
+    .copy-text button:active {
+        background: #809ce2;
+    }
+    .copy-text button:before {
+        content: "Copied";
+        position: absolute;
+        top: -45px;
+        right: 0px;
+        background: #5c81dc;
+        padding: 8px 10px;
+        border-radius: 20px;
+        font-size: 15px;
+        display: none;
+    }
+    .copy-text button:after {
+        content: "";
+        position: absolute;
+        top: -20px;
+        right: 25px;
+        width: 10px;
+        height: 10px;
+        background: #5c81dc;
+        transform: rotate(45deg);
+        display: none;
+    }
+    .copy-text.active button:before,
+    .copy-text.active button:after {
+        display: block;
+    }
+    footer {
+        position: fixed;
+        height: 50px;
+        width: 100%;
+        left: 0;
+        bottom: 0;
+        background-color: #5784f5;
+        color: white;
+        text-align: center;
+    }
+    footer p {
+        margin: revert;
+        padding: revert;
+    }
+    .upper{
+        text-transform:capitalize
+    }
+
+</style>
+
+
+<div class="ttr-wrapper pl-3 pr-3">
+    
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body" >
+                    {% include 'messages.html' %}
+                    <div style="background: url('{{user.cover_img.url}}') center center/cover; " >
+                    
+                    <h3 class="card-title p-3"> User Info</h3>
+                   
+                    <div class="row mt-5 align-items-center "  >
+                        <div class="col-md-3 text-center mb-5">
+                        <div class="avatar avatar-xl">
+                            <img src="{{user.img.url}}" alt="user avatar" class="avatar-img rounded-circle">
+                        </div>
+                        </div>
+                        <div class="col">
+                        <div class="row align-items-center">
+                            <div class="col-md-7">
+                            <h4 class="mb-1 upper"> {{user.first_name}} {{user.last_name}}</h4>
+                            <p class="small mb-3 upper"><span class="badge badge-dark"> {{user.state}},  {{user.country}}</span></p>
+                            </div>
+                        </div>
+                    
+                        </div>
+                    </div>
+                    </div>
+                    <div class="list-group list-group-flush upper caps">                                       
+                        <p class="list-group-item">  &nbsp;&nbsp; </p>
+                        <p class="list-group-item">  Email: &nbsp;&nbsp; <strong>{{user.email}}</strong> </p>
+                        <p class="list-group-item"> Gender: &nbsp;&nbsp; <strong> {{user.gender}} </strong> </p>
+                        <p class="list-group-item"> Phone: &nbsp;&nbsp; <strong> {{user.phone_num}} </strong></p>
+                        <p class="list-group-item"> Address: &nbsp;&nbsp; <strong> {{user.address}} </strong> </p>
+                        <p class="list-group-item"> State: &nbsp;&nbsp; <strong> {{user.state}} </strong> </p>
+                        <p class="list-group-item"> Country of Residence: &nbsp;&nbsp; <strong> {{user.country}} </strong> </p>
+                    </div>
+   
+                    <a class="btn btn-outline-danger" style="margin-top: 15px; color: #f15c30;"  href="{% url 'profile' %}"> Edit Profile</a>
+                    {% comment %} <a class="btn btn-outline-danger" style="margin-top: 15px; color: #f15c30;"  href="{% url 'edit-profile' %}">Change Password</a> {% endcomment %}
+                    
+    
+    
+                </div>
+    
+            </div>
+    
+    </div>
+    
+    <div class="col-lg-12">
+    <div class="card">
+    <div class="card-body">
+    <h3 class="card-title"><i class="fa fa-money"></i> Account Info</h3>
+    
+    
+    <div class="list-group list-group-flush upper">                           
+        
+        <div class="container">
+            invite link
+            <div class="copy-text  ">
+                <input type="text" class="text col-lg-11 " value="{{host}}{% url 'signup' %}?ref={{user.username}}" />
+                <button><i style="font-size:20px" class="fe fe-copy"></i></button>
+            </div>
+        <p class="list-group-item"><i class="fa fa-money"></i> Available Balance: &nbsp;&nbsp; <strong>{{wallet_balance}} ETH</strong></p>
+                                        
+ 
+        </div>
+
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+</div>
+
+
+
+    
+    
+<script>
+let copyText = document.querySelector(".copy-text");
+copyText.querySelector("button").addEventListener("click", function () {
+    let input = copyText.querySelector("input.text");
+    input.select();
+    document.execCommand("copy");
+    copyText.classList.add("active");
+    window.getSelection().removeAllRanges();
+    setTimeout(function () {
+        copyText.classList.remove("active");
+    }, 2500);
+});
+</script>
+    
+    
+{% endblock  %}

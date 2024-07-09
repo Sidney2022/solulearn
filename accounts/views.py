@@ -15,7 +15,9 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
 from django.http import Http404
-
+from django.views import View
+from django.contrib.auth.decorators import login_required
+from courses.models import EnrolledCourse, CompletedCourse
 
 class SignIn(View):
     def post(self, request, *args, **kwargs):
@@ -158,6 +160,32 @@ def set_new_password(request):
             return redirect(url)
         
     return render(request, 'authentication/set-password.html', {"token":token})
+
+
+
+class ViewProfile(View):
+    def get(self, request):
+        profile = Profile.objects.get(username=request.user.username)
+        return render(request, 'accounts/profile.html', {"profile":profile})
+    
+    def post(self, request):
+        profile = Profile.objects.get(username=request.user.username)
+        return redirect("profile")
+
+
+@login_required()
+def user_reg_courses(request):
+    reg_courses = EnrolledCourse(student=request.user)
+    context = {'reg_courses':reg_courses}
+    return render(request, 'accounts/reg-courses.html', context)
+
+@login_required()
+def user_completed_courses(request):
+    completed_courses = CompletedCourse(student=request.user)
+    context = {'completed_courses':completed_courses}
+    return render(request, 'accounts/completed-courses.html', context)
+
+
 
 
 

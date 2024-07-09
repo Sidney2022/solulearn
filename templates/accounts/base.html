@@ -26,7 +26,7 @@
 			<!--logo end -->
 			<div class="ttr-header-menu">
 				<!-- header left menu start -->
-				<ul class="ttr-header-navigation">
+				{% comment %} <ul class="ttr-header-navigation">
 					<li>
 						<a href="{% url 'homepage' %}" class="ttr-material-button ttr-submenu-toggle">HOME</a>
 					</li>
@@ -40,7 +40,7 @@
 							</ul>
 						</div>
 					</li>
-				</ul>
+				</ul> {% endcomment %}
 				<!-- header left menu end -->
 			</div>
 			<div class="ttr-header-right ttr-with-seperator">
@@ -205,7 +205,6 @@
 		                	<span class="ttr-label">Dashboard</span>
 		                </a>
 		            </li>
-					
 					<li>
 						<a href="#" class="ttr-material-button">
 							<span class="ttr-icon"><i class="ti-book"></i></span>
@@ -214,19 +213,28 @@
 		                </a>
 		                <ul>
 		                	<li>
-								<a href="{% url 'tutor-courses' user %}" class="ttr-material-button">
+								<a href="{% url 'reg-courses' %}" class="ttr-material-button">
 									<span class="ttr-icon"><i class="ti-book"></i></span>
-									<span class="ttr-label">My Courses</span>
+									<span class="ttr-label">Enrolled Courses Courses</span>
 								</a>
 							</li>
 							<li>
-								<a href="{% url 'add-course' %}" class="ttr-material-button">
+								<a href="{% url 'completed-courses' %}" class="ttr-material-button">
 									<span class="ttr-icon"><i class="ti-layout-accordion-list"></i></span>
-									<span class="ttr-label">Add Course</span>
+									<span class="ttr-label">Completed Courses</span>
 								</a>
 							</li>
 		                </ul>
 		            </li>
+				
+					<li>
+						<a href="{% url 'profile' %}" class="ttr-material-button">
+							<span class="ttr-icon"><i class="ti-settings"></i></span>
+		                	<span class="ttr-label">Settings</span>
+		                </a>
+		            </li>
+					
+					
 					
 					
 					<li>

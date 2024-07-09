@@ -2,10 +2,11 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from accounts.models import Profile, Notification
 from django.core.paginator import Paginator
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from courses.models import Course, EnrolledCourse
 from django.views import View
 from django.db.models import Q
+from django.contrib import messages
 
 class HomePage(View):
     def get(self, request):
@@ -33,6 +34,9 @@ def aboutUs(request):
 
 
 def contact(request):
+        if request.method == 'POST':
+                messages.success(request, 'message sent ')
+                return redirect('contact')
         return render(request, "main/contact.html")
 
 

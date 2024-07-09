@@ -1,8 +1,21 @@
+<style>
+
+.msg-elem {
+	width:30%;
+	position:fixed !important;
+	top:50px;
+	right:0;
+	z-index:1000000 !important
+}
+</style>
+
 {% for message in messages %}
  {% if message.tags %}
-	<div class="alert alert-{{message.tags}} p-3 mr-3">
+	<div class="alert alert-{{message.tags}} p-3 mr-3 msg-elem">
 {%endif%} 
 		{{message}}
 		<button class="close" data-dismiss="alert">×</button>
 	</div>
 {% endfor %}
+
+

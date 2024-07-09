@@ -11,7 +11,7 @@
                         <ul>
                             <li><i class="ti-location-pin"></i>75k Newcastle St. Ponte Vedra Beach, FL 309382 New York</li>
                             <li><i class="ti-mobile"></i>0800-123456 (24/7 Support Line)</li>
-                            <li><i class="ti-email"></i>info@example.com</li>
+                            <li><i class="ti-email"></i>solulearn@gmail.com</li>
                         </ul>
                     </div>
                     <h5 class="m-t0 m-b20">Follow Us</h5>
@@ -24,12 +24,14 @@
                 </div>
             </div>
             <div class="col-lg-7 col-md-7">
-                <form class="contact-bx ajax-form" action=" ">
+                <form class="contact-bx " action=" " method='post'>
+                {% csrf_token %}
                 <div class="ajax-message"></div>
                     <div class="heading-bx left">
                         <h2 class="title-head">Get In <span>Touch</span></h2>
                         <p>Reach out to us</p>
                     </div>
+                    {% include "messages.html" %}
                     <div class="row placeani">
                         <div class="col-lg-6">
                             <div class="form-group">
@@ -71,14 +73,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-12">
+                        {% comment %} <div class="col-lg-12">
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="g-recaptcha" data-sitekey="6Lf2gYwUAAAAAJLxwnZTvpJqbYFWqVyzE-8BWhVe" data-callback="verifyRecaptchaCallback" data-expired-callback="expiredRecaptchaCallback"></div>
                                     <input class="form-control d-none" style="display:none;" data-recaptcha="true" required="" data-error="Please complete the Captcha">
                                 </div>
                             </div>
-                        </div>
+                        </div> {% endcomment %}
                         <div class="col-lg-12">
                             <button name="submit" type="submit" value="Submit" class="btn button-md"> Send Message</button>
                         </div>

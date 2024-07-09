@@ -14,6 +14,14 @@ from .forms import CourseForm
 import json
 import os
 from django.core.paginator import Paginator
+from rest_framework.views import APIView, Response
+from rest_framework.generics import ListAPIView, RetrieveAPIView, UpdateAPIView, CreateAPIView, DestroyAPIView
+from .serializers import CourseSerializer, LessonSerializer
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import status 
+from rest_framework.authtoken.models import Token
+from django.contrib.auth.models import auth
+from django.http import Http404
 
 
 def courses(request):
@@ -47,6 +55,7 @@ def sort_course_by_category(request, pk):
 class CourseCreateView(View):
     def get(self, request, *args, **kwargs):
         if not request.user.account_type == 'instructor':
+            messages.error(request, 'you do not have permission to view page')
             return redirect('homepage')
         return render(request, 'tutors/create-course.html')
     
@@ -95,7 +104,7 @@ class CreateLessons(View):
         file=request.FILES["file"]
         file_path= default_storage.save(f"lessons/{file.name}", file) 
         course = Course.objects.filter(slug=course, instructor=request.user).first()
-        new_lesson = Lesson.objects.create(title=title, file=file_path,course=course, user=request.user)
+        new_lesson = Lesson.objects.create(title=title, file=file_path,course=course)
         new_lesson.save()
         return JsonResponse({"data":"lesson created", "status":201, "form_data":request.POST })
     
@@ -105,7 +114,7 @@ class CourseView(View):
         course = get_object_or_404(Course, slug=slug, status="published", is_created=True)
         features = CourseFeature.objects.filter(course=course)
         no_enrolled = len(EnrolledCourse.objects.filter(course=course))
-        lessons = Lesson.objects.filter(course=course,user=course.instructor)
+        lessons = Lesson.objects.filter(course=course)
         no_lessons = len(lessons)
         
         context = {
@@ -128,7 +137,7 @@ class CourseView(View):
 
 def asyncLesson( request,slug):
     course = Course.objects.filter(slug=slug).first()
-    lessons  = Lesson.objects.filter(course=course, user=request.user )
+    lessons  = Lesson.objects.filter(course=course)
     return JsonResponse({"data":list(lessons.values())})
 
 
@@ -144,7 +153,7 @@ def complete_course_creation(request):
     if request.method == "POST":
         slug=request.POST['course']
         course = get_object_or_404(Course, slug=slug)
-        if len(Lesson.objects.filter(course=course, user=request.user)) < 1:
+        if len(Lesson.objects.filter(course=course)) < 1:
             messages.error(request, 'you must create minumum of 3 lessons to continue')
             dynamic_url = reverse('create-lessons', args=[course.slug])
             return redirect(dynamic_url)
@@ -225,3 +234,5 @@ def search(request):
 
     }
     return render(request, 'courses/search.html', context)
+
+

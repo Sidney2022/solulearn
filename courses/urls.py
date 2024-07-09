@@ -19,5 +19,9 @@ urlpatterns = [
 
     path('<slug:slug>/enroll',  login_required(EnrollCourse.as_view()), name='enroll-course'),
     # tutors
-    path("<slug:slug>/lessons/completed", views.markLessonComplete, name="lesson-complete")
+    path("<slug:slug>/lessons/completed", views.markLessonComplete, name="lesson-complete"),
+
+
+
+
 ]

@@ -6,9 +6,11 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
+    path('api/', include('apis.urls')),
     path('accounts/', include('accounts.urls')),
     path('courses/', include('courses.urls')),
     path('blog/', include('blog.urls')),
+    path('api-auth/', include('rest_framework.urls'), name='rest_framework'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
